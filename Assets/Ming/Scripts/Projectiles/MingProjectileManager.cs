@@ -5,10 +5,13 @@ using UnityEngine;
 
 namespace Ming.Projectiles
 {
-    public class MingProjectileManager : MonoBehaviour, IMingUpdate
+    public class MingProjectileManager : MingBehaviour, IMingUpdate
     {
         public int InitialCapacity = 5000;
         public float OffsetY;
+        public MingUpdater MingUpdater;
+        public MingProjectileManager MingProjectileManager;
+
         [SerializeField, MingLayer] public LayerMask ProjectileLayer;
         [SerializeField, MingLayer] public LayerMask LightLayer;
 
@@ -70,8 +73,8 @@ namespace Ming.Projectiles
             }
         }
 
-        void OnEnable() { Horde.ComponentUpdater.RegisterForUpdate(this, MingUpdatePass.Internal_DrawMeshes); }
-        void OnDisable() { Horde.ComponentUpdater.UnregisterForUpdate(this, MingUpdatePass.Internal_DrawMeshes); }
+        void OnEnable() { MingUpdater.RegisterForUpdate(this, MingUpdatePass.Internal_DrawMeshes); }
+        void OnDisable() { MingUpdater.UnregisterForUpdate(this, MingUpdatePass.Internal_DrawMeshes); }
 
         public void MingUpdate(MingUpdatePass pass)
         {
