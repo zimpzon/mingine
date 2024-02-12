@@ -1,0 +1,20 @@
+two globals to "fix":
+                Horde.Sprites.AddQuad(pos, p.LightSize, p.RotationDegrees, p.LightSize.y, p.LightColor, p.LightSprite, p.LightMaterial, _lightLayer);
+            }
+        }
+
+        void OnEnable() { Horde.ComponentUpdater.RegisterForUpdate(this, MingUpdatePass.Internal_DrawMeshes); }
+
+
+sprite sorting (I used that in editor in Ghouls?)
+
+rotationDegrees is not used in this:
+        public void AddQuad(Vector3 center, Vector2 size, float rotationDegrees, float zSkew, Vector2 uvTopLeft, Vector2 uvSize, Color32 color)
+
+
+is is not used:
+        public MingBatchRenderer(ulong id, Texture texture, Material material, int layer, int quadsPerMesh)
+
+
+
+https://0x72.itch.io/pixeldudesmaker
