@@ -1,19 +1,27 @@
-﻿using System;
+﻿using Ming.Util;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ming.Engine
 {
-    public class MingUpdater
+    public interface IMingUpdaterControl
     {
-        private Dictionary<MingUpdatePass, List<IMingUpdate>> _passes = new Dictionary<MingUpdatePass, List<IMingUpdate>>();
+        void UpdateAll();
+        void LateUpdateAll();
+    }
+
+    [CreateAssetMenu(fileName = "MingUpdater", menuName = "Ming/Engine/MingUpdater", order = 1)]
+    public class MingUpdater : ScriptableObject, IMingUpdaterControl
+    {
+        private Dictionary<MingUpdatePass, List<IMingUpdate>> _passes = new();
 
         public MingUpdater()
         {
             var values = Enum.GetValues(typeof(MingUpdatePass));
             foreach(var value in values)
             {
-                const int Capacity = 200;
+                const int Capacity = 200;   
                 _passes[(MingUpdatePass)value] = new List<IMingUpdate>(Capacity);
             }
         }
@@ -25,8 +33,8 @@ namespace Ming.Engine
                 var list = _passes[pass];
                 if (Application.isEditor)
                 {
-                    if (list.Contains(component))
-                        Debug.LogErrorFormat("Component (hash {0}) is already added for priority {1}.", component.GetHashCode(), pass);
+                    //if (list.Contains(component))
+                    //    Debug.LogErrorFormat("Component (hash {0}) is already added for priority {1}.", component.GetHashCode(), pass);
                 }
 
                 list.Add(component);
@@ -40,15 +48,15 @@ namespace Ming.Engine
                 var list = _passes[pass];
                 if (Application.isEditor)
                 {
-                    if (!list.Contains(component))
-                        Debug.LogErrorFormat("Component (hash {0}) was not found in priority {1}.", component.GetHashCode(), pass);
+                    //if (!list.Contains(component))
+                    //    Debug.LogErrorFormat("Component (hash {0}) was not found in priority {1}.", component.GetHashCode(), pass);
                 }
 
                 MingLists.ReplaceRemove(list, component);
             }
         }
 
-        public void DoUpdate()
+        void IMingUpdaterControl.UpdateAll()
         {
             foreach(var pair in _passes)
             {
@@ -64,7 +72,7 @@ namespace Ming.Engine
             }
         }
 
-        public void DoLateUpdate()
+        void IMingUpdaterControl.LateUpdateAll()
         {
             foreach (var pair in _passes)
             {

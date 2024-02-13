@@ -1,11 +1,12 @@
 ﻿using Ming.Engine;
 using UnityEngine;
 
-namespace Ming.Camera
+namespace Ming.Cameras
 {
     // Object to shake will be forced at 0, 0, 0
-    public class CameraShake : MonoBehaviour, IMingUpdate
+    public class MingCameraShake : MonoBehaviour
     {
+        public MingUpdater MingUpdater;
         public bool ShakeRotation = true;
         public bool ShakePosition = true;
         public float Dampening = 4.0f;
@@ -23,10 +24,7 @@ namespace Ming.Camera
             CurrentAmount = Mathf.Clamp01(CurrentAmount + amount);
         }
 
-        void OnEnable() { Horde.ComponentUpdater.RegisterForUpdate(this, MingUpdatePass.Late); }
-        void OnDisable() { Horde.ComponentUpdater.UnregisterForUpdate(this, MingUpdatePass.Late); }
-
-        public void MingUpdate(MingUpdatePass pass)
+        public void Update()
         {
             float t = MingTime.UnscaledTime * 10.0f;
             float dt = MingTime.UnscaledTime;

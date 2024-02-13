@@ -2,7 +2,7 @@
 
 namespace Ming.Projectiles
 {
-    [CreateAssetMenu(fileName = "new MingProjectileBlueprint.asset", menuName = "Ming/Projectile Blueprint", order = 10)]
+    [CreateAssetMenu(fileName = "new MingProjectileBlueprint.asset", menuName = "Ming/Projectiles/Projectile Blueprint", order = 10)]
     public class MingProjectileBlueprint : ScriptableObject
     {
         public Sprite Sprite;

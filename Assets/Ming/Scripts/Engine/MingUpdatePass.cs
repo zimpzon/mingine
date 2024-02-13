@@ -13,9 +13,13 @@
     /// </summary>
     public enum MingUpdatePass
     {
-        CollisionSetup, Early, Default, Physics,
-        // Unity Update() happens here
-        Late, Internal_DrawMeshes,
-        // Unity LateUpdate() happens here
+        CollisionSetup,
+        Early,
+        Default,
+        Physics,
+        UnityUpdate,
+        Late,
+        MingDrawMeshes,
+        UnityLate,
     };
 }

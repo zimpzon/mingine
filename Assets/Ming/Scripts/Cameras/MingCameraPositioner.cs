@@ -1,34 +1,34 @@
 ﻿using Ming.Engine;
 using UnityEngine;
 
-namespace Ming.Camera
+namespace Ming.Cameras
 {
     public class MingCameraPositioner : MingBehaviour
     {
         public float MoveSpeed = 5.0f;
-        public Vector3 Target;
+        public Transform Target;
         public float TargetOffsetZ;
         public float MoveSpeedZ = 5;
         public float DistanceFromTarget;
         public float DistanceFromTargetOffsetZ;
 
-        Vector3 currentPos_;
-        float currentOffsetZ_;
-        Transform trans_;
+        Vector3 _currentPos;
+        float _currentOffsetZ;
+        Transform _trans;
 
         private void Awake()
         {
-            trans_ = transform;
+            _trans = transform;
         }
 
-        public void SetTarget(Vector3 target)
+        public void SetTarget(Transform target)
         {
             Target = target;
         }
 
         public void SetPosition(Vector3 pos)
         {
-            currentPos_ = pos;
+            _currentPos = pos;
         }
 
         private void Update()
@@ -39,25 +39,25 @@ namespace Ming.Camera
         public void UpdateCamera(float dt)
         {
             // XY
-            var movement = (Target - currentPos_);
+            var movement = (Target.position - _currentPos);
             DistanceFromTarget = movement.magnitude;
             movement *= MoveSpeed;
 
             const float CloseEnough = 0.1f;
             if (DistanceFromTarget > CloseEnough)
-                currentPos_ += movement * dt;
+                _currentPos += movement * dt;
 
             // Z
-            float moveZ = (TargetOffsetZ - currentOffsetZ_);
+            float moveZ = (TargetOffsetZ - _currentOffsetZ);
             DistanceFromTargetOffsetZ = moveZ;
             moveZ *= MoveSpeedZ;
 
             const float CloseEnoughZ = 0.1f;
             if (Mathf.Abs(moveZ) > CloseEnoughZ)
-                currentOffsetZ_ += moveZ * dt;
+                _currentOffsetZ += moveZ * dt;
 
-            currentPos_.z = currentOffsetZ_;
-            trans_.localPosition = currentPos_;
+            _currentPos.z = _currentOffsetZ;
+            _trans.localPosition = _currentPos;
         }
     }
 }

@@ -12,37 +12,37 @@ namespace Ming.Debug
         const int W = 128;
         const int H = 64;
 
-        int currentColumn_;
-        int textUpdateRate_ = 2;
+        int _currentColumn;
+        int _textUpdateRate = 2;
         Color32 background_ = new Color32(50, 50, 50, 255);
         RawImage image_;
-        TextMeshProUGUI textFps_;
-        Texture2D texture_;
-        Color32[] pixels_;
-        Rect uvRect_ = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
-        GameObject displayRoot_;
+        TextMeshProUGUI _textFps;
+        Texture2D _texture;
+        Color32[] _pixels;
+        Rect _uvRect = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
+        GameObject _displayRoot;
 
         private void Awake()
         {
             image_ = GetComponentInChildren<RawImage>();
-            textFps_ = GetComponentInChildren<TextMeshProUGUI>();
+            _textFps = GetComponentInChildren<TextMeshProUGUI>();
 
-            pixels_ = new Color32[W * H];
-            for (int i = 0; i < pixels_.Length; ++i)
-                pixels_[i] = background_;
+            _pixels = new Color32[W * H];
+            for (int i = 0; i < _pixels.Length; ++i)
+                _pixels[i] = background_;
 
-            texture_ = new Texture2D(W, H, TextureFormat.RGBA32, false)
+            _texture = new Texture2D(W, H, TextureFormat.RGBA32, false)
             {
                 filterMode = FilterMode.Point,
                 wrapMode = TextureWrapMode.Repeat
             };
 
-            image_.texture = texture_;
-            image_.uvRect = uvRect_;
+            image_.texture = _texture;
+            image_.uvRect = _uvRect;
 
-            displayRoot_ = transform.GetChild(0).gameObject;
+            _displayRoot = transform.GetChild(0).gameObject;
             if (!StartEnabled)
-                displayRoot_.SetActive(false);
+                _displayRoot.SetActive(false);
         }
 
         public void Add(float fps)
@@ -56,36 +56,36 @@ namespace Ming.Debug
             int top = Mathf.Min(H - 1, Mathf.RoundToInt(fps));
             for (int y = 0; y < H; ++y)
             {
-                pixels_[y * W + currentColumn_] = y < top ? col32 : background_;
+                _pixels[y * W + _currentColumn] = y < top ? col32 : background_;
             }
 
             // Dashed line
             int row60Fps = 60;
-            if ((currentColumn_ / 5) % 2 == 0)
-                pixels_[row60Fps * W + currentColumn_] = Color.green;
+            if ((_currentColumn / 5) % 2 == 0)
+                _pixels[row60Fps * W + _currentColumn] = Color.green;
 
-            texture_.SetPixels32(pixels_);
-            texture_.Apply();
+            _texture.SetPixels32(_pixels);
+            _texture.Apply();
 
-            uvRect_.x = (1.0f / W) * (currentColumn_ + 1);
-            image_.uvRect = uvRect_;
+            _uvRect.x = (1.0f / W) * (_currentColumn + 1);
+            image_.uvRect = _uvRect;
 
-            if (++currentColumn_ >= W)
-                currentColumn_ = 0;
+            if (++_currentColumn >= W)
+                _currentColumn = 0;
         }
 
         void Update()
         {
             if (Input.GetKeyDown(ToggleKey))
-                displayRoot_.SetActive(!displayRoot_.activeSelf);
+                _displayRoot.SetActive(!_displayRoot.activeSelf);
 
-            if (displayRoot_.activeSelf)
+            if (_displayRoot.activeSelf)
             {
                 float fps = 1.0f / Time.deltaTime;
                 Add(fps);
 
-                //if (Time.frameCount % textUpdateRate_ == 0)
-                //    textFps_.SetText("{0:1} FpS", fps);
+                //if (Time.frameCount % _textUpdateRate == 0)
+                //    _textFps.SetText("{0:1} FpS", fps);
             }
         }
     }
