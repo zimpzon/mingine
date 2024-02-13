@@ -62,17 +62,17 @@ namespace Ming.Projectiles
             }
         }
 
-        void RenderProjectile(ref MingProjectile p) 
+        void RenderProjectile(ref MingProjectile p)
         {
             Vector3 pos = p.ActualPos;
             pos.z = p.Z;
             pos.y += OffsetY;
             _mingQuadRenderer.AddQuad(pos, p.Size, p.RotationDegrees, p.Size.y, p.Color, p.Sprite, p.Material, _projectileLayer);
 
-            if (p.EmitLight)
+            if (p.HasDropshadow)
             {
-                pos.y += p.LightOffsetY;
-                _mingQuadRenderer.AddQuad(pos, p.LightSize, p.RotationDegrees, p.LightSize.y, p.LightColor, p.LightSprite, p.LightMaterial, _lightLayer);
+                pos += (Vector3)p.DropshadowOffset;
+                _mingQuadRenderer.AddQuad(pos, p.DropshadowSize, p.RotationDegrees, p.DropshadowSize.y, p.DropshadowColor, p.DropshadowSprite, p.DropshadowMaterial, _lightLayer);
             }
         }
 

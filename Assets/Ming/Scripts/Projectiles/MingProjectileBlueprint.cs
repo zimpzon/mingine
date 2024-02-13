@@ -10,12 +10,12 @@ namespace Ming.Projectiles
         public Vector2 Size = Vector2.one;
         public Color32 Color = UnityEngine.Color.white;
 
-        public bool EmitLight;
-        public Sprite LightSprite;
-        public Material LightMaterial;
-        public Vector2 LightSize = Vector2.one;
-        public Color32 LightColor = UnityEngine.Color.white;
-        public float LightOffsetY;
+        public bool EmitDropshadow;
+        public Sprite DropshadowSprite;
+        public Material DropshadowMaterial;
+        public Vector2 DropshadowSize = Vector2.one;
+        public Color32 DropshadowColor = UnityEngine.Color.black;
+        public Vector2 DropshadowOffset;
 
         public float CollisionSize = 1.0f;
         public bool BounceWalls;

@@ -19,12 +19,12 @@ namespace Ming.Projectiles
             Material = null;
             Size = Vector2.one;
             Color = new Color32(255, 255, 255, 255);
-            EmitLight = false;
-            LightSprite = null;
-            LightMaterial = null;
-            LightSize = Vector2.one;
-            LightColor = new Color32(255, 255, 255, 255);
-            LightOffsetY = 0.0f;
+            HasDropshadow = false;
+            DropshadowSprite = null;
+            DropshadowMaterial = null;
+            DropshadowSize = Vector2.one;
+            DropshadowColor = new Color32(0, 0, 0, 255);
+            DropshadowOffset = Vector2.zero;
 
             CustomData = null;
             CollisionSize = 1.0f;
@@ -48,12 +48,12 @@ namespace Ming.Projectiles
             Size = desc.Size;
             Color = desc.Color;
 
-            EmitLight = desc.EmitLight;
-            LightSprite = desc.LightSprite;
-            LightMaterial = desc.LightMaterial;
-            LightSize = desc.LightSize;
-            LightColor = desc.LightColor;
-            LightOffsetY = desc.LightOffsetY;
+            HasDropshadow = desc.EmitDropshadow;
+            DropshadowSprite = desc.DropshadowSprite;
+            DropshadowMaterial = desc.DropshadowMaterial;
+            DropshadowSize = desc.DropshadowSize;
+            DropshadowColor = desc.DropshadowColor;
+            DropshadowOffset = desc.DropshadowOffset;
 
             CollisionSize = desc.CollisionSize;
             BounceWalls = desc.BounceWalls;
@@ -75,12 +75,12 @@ namespace Ming.Projectiles
         public Material Material;
         public Vector2 Size;
         public Color32 Color;
-        public bool EmitLight;
-        public Sprite LightSprite;
-        public Material LightMaterial;
-        public Vector2 LightSize;
-        public Color LightColor;
-        public float LightOffsetY;
+        public bool HasDropshadow;
+        public Sprite DropshadowSprite;
+        public Material DropshadowMaterial;
+        public Vector2 DropshadowSize;
+        public Color DropshadowColor;
+        public Vector2 DropshadowOffset;
         public Object CustomData;
 
         public float CollisionSize;

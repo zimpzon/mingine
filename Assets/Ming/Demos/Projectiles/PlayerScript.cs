@@ -9,7 +9,7 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKey(KeyCode.E))
         {
             // can updaters be scriptable objects?
             ProjectileSpawners.SpawnSingle(PlayerBulletBlueprint, transform.position, Random.insideUnitCircle.normalized, 1, ProjectileManager, ProjectileUpdaters.BasicMove);

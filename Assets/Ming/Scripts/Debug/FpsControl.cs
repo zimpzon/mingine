@@ -14,7 +14,7 @@ namespace Ming.Debug
         const int H = 64;
 
         int _currentColumn;
-        int _textUpdateRate = 2;
+        int _textUpdateRate = 10;
         Color32 background_ = new Color32(50, 50, 50, 255);
         RawImage image_;
         TextMeshProUGUI _textFps;
@@ -25,6 +25,9 @@ namespace Ming.Debug
 
         private void Awake()
         {
+            _displayRoot = transform.GetChild(0).gameObject;
+            _displayRoot.SetActive(true);
+
             image_ = GetComponentInChildren<RawImage>();
             _textFps = GetComponentInChildren<TextMeshProUGUI>();
 
@@ -35,21 +38,21 @@ namespace Ming.Debug
             _texture = new Texture2D(W, H, TextureFormat.RGBA32, false)
             {
                 filterMode = FilterMode.Point,
-                wrapMode = TextureWrapMode.Repeat
+                wrapMode = TextureWrapMode.Repeat,
             };
 
             image_.texture = _texture;
             image_.uvRect = _uvRect;
 
-            _displayRoot = transform.GetChild(0).gameObject;
-            if (!StartEnabled)
-                _displayRoot.SetActive(false);
+            _displayRoot.SetActive(StartEnabled);
         }
 
         public void Add(float fps)
         {
             if (!_displayRoot.activeSelf)
                 return;
+
+            const int Row60Fps = 60;
 
             Color col = new Color(0.0f, 0.4f, 0.0f, 1.0f);
             float score = Mathf.Clamp(fps / 60, 0.0f, 1.0f);
@@ -64,9 +67,8 @@ namespace Ming.Debug
             }
 
             // Dashed line
-            int row60Fps = 60;
             if ((_currentColumn / 5) % 2 == 0)
-                _pixels[row60Fps * W + _currentColumn] = Color.green;
+                _pixels[Row60Fps * W + _currentColumn] = Color.green;
 
             _texture.SetPixels32(_pixels);
             _texture.Apply();
