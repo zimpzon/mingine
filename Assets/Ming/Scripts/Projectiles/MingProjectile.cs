@@ -26,7 +26,7 @@ namespace Ming.Projectiles
             LightColor = new Color32(255, 255, 255, 255);
             LightOffsetY = 0.0f;
 
-            CollidePlayer = false;
+            CustomData = null;
             CollisionSize = 1.0f;
             BounceWalls = false;
             BouncesLeft = 0;
@@ -41,6 +41,8 @@ namespace Ming.Projectiles
 
         public void ApplyBlueprint(MingProjectileBlueprint desc)
         {
+            Reset();
+
             Sprite = desc.Sprite;
             Material = desc.Material;
             Size = desc.Size;
@@ -79,8 +81,8 @@ namespace Ming.Projectiles
         public Vector2 LightSize;
         public Color LightColor;
         public float LightOffsetY;
+        public Object CustomData;
 
-        public bool CollidePlayer;
         public float CollisionSize;
         public bool BounceWalls;
         public int BouncesLeft;
