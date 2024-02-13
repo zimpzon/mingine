@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Ming.Util;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,6 +48,9 @@ namespace Ming.Debug
 
         public void Add(float fps)
         {
+            if (!_displayRoot.activeSelf)
+                return;
+
             Color col = new Color(0.0f, 0.4f, 0.0f, 1.0f);
             float score = Mathf.Clamp(fps / 60, 0.0f, 1.0f);
             float score2 = score * score;
@@ -84,8 +88,8 @@ namespace Ming.Debug
                 float fps = 1.0f / Time.deltaTime;
                 Add(fps);
 
-                //if (Time.frameCount % _textUpdateRate == 0)
-                //    _textFps.SetText("{0:1} FpS", fps);
+                if (Time.frameCount % _textUpdateRate == 0)
+                    _textFps.SetText(MingIntToStrLut.GetString(Mathf.RoundToInt(fps)));
             }
         }
     }

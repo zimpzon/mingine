@@ -5,10 +5,10 @@ namespace Ming.Demos.Common
 {
     public static class ProjectileSpawners
     {
-        public static void SpawnCircle(MingProjectileBlueprint desc, Vector2 origin, float radius, int count, float speed, MingProjectileManager manager, MingProjectile.TickDelegate updateFunc)
+        public static void SpawnCircle(MingProjectileBlueprint blueprint, Vector2 origin, float radius, int count, float speed, MingProjectileManager manager, MingProjectile.TickDelegate updateFunc)
         {
             var proto = new MingProjectile();
-            proto.ApplyBlueprint(desc);
+            proto.ApplyBlueprint(blueprint);
 
             for (int i = 0; i < count; ++i)
             {
@@ -30,10 +30,10 @@ namespace Ming.Demos.Common
             }
         }
 
-        public static void SpawnSingle(MingProjectileBlueprint desc, Vector2 origin, Vector2 dir, float speed, MingProjectileManager manager, MingProjectile.TickDelegate updateFunc)
+        public static void SpawnSingle(MingProjectileBlueprint blueprint, Vector2 origin, Vector2 dir, float speed, MingProjectileManager manager, MingProjectile.TickDelegate updateFunc)
         {
             var proto = new MingProjectile();
-            proto.ApplyBlueprint(desc);
+            proto.ApplyBlueprint(blueprint);
 
             proto.StartPos = origin;
             proto.Origin = origin;
@@ -46,10 +46,10 @@ namespace Ming.Demos.Common
             manager.SpawnProjectile(ref proto);
         }
 
-        public static void SpawnPattern(MingProjectileBlueprint desc, Vector2 origin, Vector2 velocity, string[] pattern, MingProjectileManager manager)
+        public static void SpawnPattern(MingProjectileBlueprint blueprint, Vector2 origin, Vector2 velocity, string[] pattern, MingProjectileManager manager)
         {
             var proto = new MingProjectile();
-            proto.ApplyBlueprint(desc);
+            proto.ApplyBlueprint(blueprint);
 
             foreach (var pos in ProjectilePatterns.PatternPositions(pattern, 0.5f))
             {

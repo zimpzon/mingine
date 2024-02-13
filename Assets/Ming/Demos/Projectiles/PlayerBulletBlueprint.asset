@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e79169a10cc5f5049a1c2214b074fc74, type: 3}
-  m_Name: Projectile1
+  m_Name: PlayerBulletBlueprint
   m_EditorClassIdentifier: 
   Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   Material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   Size: {x: 1, y: 1}
   Color:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278241023
   EmitLight: 0
   LightSprite: {fileID: 0}
   LightMaterial: {fileID: 0}

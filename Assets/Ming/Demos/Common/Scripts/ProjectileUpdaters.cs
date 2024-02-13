@@ -33,14 +33,14 @@ namespace Ming.Demos.Common
             return true;
         }
 
-        public static bool ChasePlayer(ref MingProjectile p)
+        public static bool ChaseTarget(ref MingProjectile p)
         {
             float timeAlive = MingTime.Time - p.StartTime;
 
             // Spawn fast -> stop -> start engines
             const float SpawnTime = 1.0f;
 
-            float moveSpeed = 0.0f;
+            float moveSpeed;
             if (timeAlive < SpawnTime)
             {
                 // First x seconds: Go from full speed to 0
@@ -59,7 +59,7 @@ namespace Ming.Demos.Common
             if (timeAlive < SpawnTime)
                 turnPower = 0.0f;
 
-            // this assumes player transform was set as CustomData when spawning the projectile
+            // this assumes target transform was set as CustomData when spawning the projectile
             var desiredDir = (Vector2)((Transform)p.CustomData).position - p.ActualPos;
             p.Velocity.x += (desiredDir.x - p.Velocity.x) * MingTime.DeltaTime * turnPower;
             p.Velocity.y += (desiredDir.y - p.Velocity.y) * MingTime.DeltaTime * turnPower;

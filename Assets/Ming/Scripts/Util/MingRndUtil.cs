@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-static class RndUtil
+static class MingRndUtil
 {
     public static Vector2 RandomInsideUnitCircle()
     {
