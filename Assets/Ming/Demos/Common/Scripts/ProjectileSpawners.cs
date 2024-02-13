@@ -20,7 +20,7 @@ namespace Ming.Demos.Common
                 proto.Idx = i;
                 proto.StartPos = pos;
                 proto.Origin = pos;
-                proto.ActualPos = pos;
+                proto.Position = pos;
                 proto.RotationDegrees = angleDegrees;
                 proto.Speed = speed;
                 proto.Velocity = dir * speed;
@@ -30,6 +30,7 @@ namespace Ming.Demos.Common
             }
         }
 
+        // TODO: factory something? Param in an object?
         public static void SpawnSingle(MingProjectileBlueprint blueprint, Vector2 origin, Vector2 dir, float speed, MingProjectileManager manager, MingProjectile.TickDelegate updateFunc)
         {
             var proto = new MingProjectile();
@@ -37,8 +38,8 @@ namespace Ming.Demos.Common
 
             proto.StartPos = origin;
             proto.Origin = origin;
-            proto.ActualPos = origin;
-            proto.RotationDegrees = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+            proto.Position = origin;
+            //proto.RotationDegrees = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
             proto.Speed = speed;
             proto.Velocity = dir * speed;
             proto.UpdateCallback = updateFunc;
@@ -58,7 +59,7 @@ namespace Ming.Demos.Common
                 proto.OriginOffset = origin + pos;
                 proto.Velocity = velocity;
                 proto.UpdateCallback = ProjectileUpdaters.BasicMove;
-                proto.ActualPos = proto.StartPos;
+                proto.Position = proto.StartPos;
             }
         }
     }

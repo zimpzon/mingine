@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Ming.Util;
+using UnityEngine;
 
 namespace Ming.Projectiles
 {
@@ -9,19 +10,15 @@ namespace Ming.Projectiles
         public Material Material;
         public Vector2 Size = Vector2.one;
         public Color32 Color = UnityEngine.Color.white;
-
-        public bool EmitDropshadow;
+        public float CollisionSize = 1.0f;
+        public LayerMask CollisionMask;
+        public float MaxDistance = 20;
+        public float MaxTime = 10;
+        public bool HasDropshadow;
         public Sprite DropshadowSprite;
         public Material DropshadowMaterial;
         public Vector2 DropshadowSize = Vector2.one;
         public Color32 DropshadowColor = UnityEngine.Color.black;
         public Vector2 DropshadowOffset;
-
-        public float CollisionSize = 1.0f;
-        public bool BounceWalls;
-        public int MaxWallBounces = 2;
-
-        public float MaxDistance = 20;
-        public float MaxTime = 10;
     }
 }

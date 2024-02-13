@@ -6,27 +6,19 @@ namespace Ming.Demos.Common
 {
     public static class ProjectileUpdaters
     {
-        public static bool BasicMove(ref MingProjectile p)
-        {
-            p.ActualPos += p.Velocity * MingTime.DeltaTime;
-
-            // return false on destroy
-            return true;
-        }
-
         public static bool CirclingMove(ref MingProjectile p)
         {
             p.Origin += p.Velocity * MingTime.DeltaTime;
-            var oldPos = p.ActualPos;
+            var oldPos = p.Position;
 
-            float deg = Time.time * 500 + p.Idx * 5;
+            float deg = MingTime.Time * 500 + p.Idx * 5;
             float sin = Mathf.Sin(-deg * Mathf.Deg2Rad);
             float cos = Mathf.Cos(-deg * Mathf.Deg2Rad);
 
-            p.ActualPos.x = p.Origin.x + cos - sin;
-            p.ActualPos.y = p.Origin.y + sin + cos;
+            p.Position.x = p.Origin.x + cos - sin;
+            p.Position.y = p.Origin.y + sin + cos;
 
-            var move = p.ActualPos - oldPos;
+            var move = p.Position - oldPos;
             p.RotationDegrees = Mathf.Atan2(move.x, move.y) * Mathf.Rad2Deg;
 
             // return false on destroy
@@ -60,28 +52,27 @@ namespace Ming.Demos.Common
                 turnPower = 0.0f;
 
             // this assumes target transform was set as CustomData when spawning the projectile
-            var desiredDir = (Vector2)((Transform)p.CustomData).position - p.ActualPos;
+            var desiredDir = (Vector2)((Transform)p.CustomData).position - p.Position;
             p.Velocity.x += (desiredDir.x - p.Velocity.x) * MingTime.DeltaTime * turnPower;
             p.Velocity.y += (desiredDir.y - p.Velocity.y) * MingTime.DeltaTime * turnPower;
             p.Velocity = p.Velocity.normalized;
 
-            p.ActualPos += p.Velocity * MingTime.DeltaTime * moveSpeed * p.Speed;
+            p.Position += p.Velocity * MingTime.DeltaTime * moveSpeed * p.Speed;
             p.RotationDegrees = Mathf.Atan2(p.Velocity.x, p.Velocity.y) * Mathf.Rad2Deg;
 
             // return false on destroy
             return true;
         }
 
-        public static bool UpdateProjectile2(ref MingProjectile p)
+        public static bool BasicMove(ref MingProjectile p)
         {
-            p.ActualPos += p.Velocity * MingTime.DeltaTime;
-            float dist = (p.ActualPos - p.StartPos).sqrMagnitude;
+            p.Position += p.Velocity * p.Speed * MingTime.DeltaTime;
+            float dist = (p.Position - p.StartPos).sqrMagnitude;
             if (dist > p.MaxDist * p.MaxDist)
                 return false;
 
-            p.Velocity += p.Velocity * 1.5f * Time.deltaTime;
-            // return false on destroy
-            return true;
+            bool res = Physics2D.OverlapCircle(p.Position, p.CollisionSize, p.CollisionMask);
+            return !res;
         }
     }
 }

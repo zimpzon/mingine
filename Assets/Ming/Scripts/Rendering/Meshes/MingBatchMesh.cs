@@ -119,10 +119,6 @@ namespace Ming.Rendering.Meshes
 
             float sin = Mathf.Sin(-rotationDegrees * Mathf.Deg2Rad);
             float cos = Mathf.Cos(-rotationDegrees * Mathf.Deg2Rad);
-            float sinX = halfW * sin;
-            float cosX = halfW * cos;
-            float sinY = halfH * sin;
-            float cosY = halfH * cos;
 
             int vert0 = ActiveQuadCount * 4;
             vertices_[vert0 + 0].x = (-halfW * cos -  halfH * sin) + center.x;

@@ -14,7 +14,6 @@ namespace Ming.Projectiles
         public MingUpdater MingUpdater;
 
         [SerializeField, MingLayer] public LayerMask ProjectileLayer;
-        [SerializeField, MingLayer] public LayerMask LightLayer;
 
         private MingQuadRenderer _mingQuadRenderer;
 
@@ -32,7 +31,7 @@ namespace Ming.Projectiles
             for (int i = 0; i < ActiveProjectiles; ++i)
             {
                 var p = _projectiles[i];
-                var pos = p.ActualPos;
+                var pos = p.Position;
                 pos.y += OffsetY;
                 Gizmos.DrawWireSphere(pos, p.CollisionSize);
             }
@@ -43,7 +42,6 @@ namespace Ming.Projectiles
             _mingQuadRenderer = GetComponent<MingQuadRenderer>();
             _projectiles = new MingProjectile[InitialCapacity];
             _projectileLayer = (int)ProjectileLayer;
-            _lightLayer = (int)LightLayer;
         }
 
         public void Clear()
@@ -64,7 +62,7 @@ namespace Ming.Projectiles
 
         void RenderProjectile(ref MingProjectile p)
         {
-            Vector3 pos = p.ActualPos;
+            Vector3 pos = p.Position;
             pos.z = p.Z;
             pos.y += OffsetY;
             _mingQuadRenderer.AddQuad(pos, p.Size, p.RotationDegrees, p.Size.y, p.Color, p.Sprite, p.Material, _projectileLayer);
