@@ -39,7 +39,7 @@ namespace Ming.Demos.Common
             proto.StartPos = origin;
             proto.Origin = origin;
             proto.Position = origin;
-            //proto.RotationDegrees = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+            proto.RotationDegrees = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
             proto.Speed = speed;
             proto.Velocity = dir * speed;
             proto.UpdateCallback = updateFunc;

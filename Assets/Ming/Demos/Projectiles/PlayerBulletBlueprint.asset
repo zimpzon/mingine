@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79169a10cc5f5049a1c2214b074fc74, type: 3}
   m_Name: PlayerBulletBlueprint
   m_EditorClassIdentifier: 
-  Sprite: {fileID: 21300000, guid: 638578969237fef429c3ed31b3265584, type: 3}
+  Sprite: {fileID: 1477916294, guid: b2148ec9ab9f3774aa3d2ed7a3cd8bb6, type: 3}
   Material: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   Size: {x: 0.5, y: 0.5}
   Color:
     serializedVersion: 2
-    rgba: 4280691648
+    rgba: 4294967295
   CollisionSize: 0.25
   CollisionMask:
     serializedVersion: 2

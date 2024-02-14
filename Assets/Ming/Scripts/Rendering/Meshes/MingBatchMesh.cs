@@ -43,7 +43,7 @@ namespace Ming.Rendering.Meshes
             // Triangles are set only once
             Mesh.SetTriangles(indices_, 0, false);
 
-            Mesh.UploadMeshData(false);
+            Mesh.UploadMeshData(markNoLongerReadable: false);
         }
 
         void InitializeIndices()
@@ -77,7 +77,7 @@ namespace Ming.Rendering.Meshes
             Mesh.uv = UV_;
             Mesh.colors32 = colors_;
 
-            Mesh.UploadMeshData(false);
+            Mesh.UploadMeshData(markNoLongerReadable: false);
         }
 
         void ZeroVertices(int firstQuad, int lastQuad)

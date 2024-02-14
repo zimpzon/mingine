@@ -16,6 +16,8 @@ namespace Ming.Projectiles
             MaxTime = float.MaxValue;
             Sprite = null;
             Material = null;
+            SortingLayerName = "Default";
+            SortingOrder = 0;
             Size = Vector2.one;
             Color = new Color32(255, 255, 255, 255);
             CustomData = null;
@@ -34,38 +36,44 @@ namespace Ming.Projectiles
             UpdateCallback = null;
         }
 
-        public void ApplyBlueprint(MingProjectileBlueprint desc)
+        public void ApplyBlueprint(MingProjectileBlueprint blueprint)
         {
             Reset();
 
-            Sprite = desc.Sprite;
-            Material = desc.Material;
-            Size = desc.Size;
-            Color = desc.Color;
+            Sprite = blueprint.Sprite;
+            Material = blueprint.Material;
+            SortingLayerName = blueprint.SortingLayerName;
+            SortingOrder = blueprint.SortingOrder;
+            Size = blueprint.Size;
+            Color = blueprint.Color;
 
-            HasDropshadow = desc.HasDropshadow;
-            DropshadowSprite = desc.DropshadowSprite;
-            DropshadowMaterial = desc.DropshadowMaterial;
-            DropshadowSize = desc.DropshadowSize;
-            DropshadowColor = desc.DropshadowColor;
-            DropshadowOffset = desc.DropshadowOffset;
+            HasDropshadow = blueprint.HasDropshadow;
+            DropshadowSprite = blueprint.DropshadowSprite;
+            DropshadowMaterial = blueprint.DropshadowMaterial;
+            DropshadowSortingLayerName = blueprint.DropshadowSortingLayerName;
+            DropshadowSortingOrder = blueprint.DropshadowSortingOrder;
+            DropshadowSize = blueprint.DropshadowSize;
+            DropshadowColor = blueprint.DropshadowColor;
+            DropshadowOffset = blueprint.DropshadowOffset;
 
-            CollisionSize = desc.CollisionSize;
-            CollisionMask = desc.CollisionMask;
+            CollisionSize = blueprint.CollisionSize;
+            CollisionMask = blueprint.CollisionMask;
 
-            MaxDist = desc.MaxDistance;
-            MaxTime = desc.MaxTime;
+            MaxDist = blueprint.MaxDistance;
+            MaxTime = blueprint.MaxTime;
         }
 
         public int Idx;
+        public Sprite Sprite;
+        public Material Material;
+        public string SortingLayerName;
+        public int SortingOrder;
         public float StartTime;
         public Vector2 StartPos;
         public Vector2 Origin;
         public Vector2 OriginOffset;
         public float MaxDist;
         public float MaxTime;
-        public Sprite Sprite;
-        public Material Material;
         public Vector2 Size;
         public Color32 Color;
         public Object CustomData;
@@ -79,6 +87,8 @@ namespace Ming.Projectiles
         public bool HasDropshadow;
         public Sprite DropshadowSprite;
         public Material DropshadowMaterial;
+        public string DropshadowSortingLayerName;
+        public int DropshadowSortingOrder;
         public Vector2 DropshadowSize;
         public Color DropshadowColor;
         public Vector2 DropshadowOffset;

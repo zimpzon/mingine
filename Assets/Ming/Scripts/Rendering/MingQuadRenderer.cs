@@ -10,7 +10,7 @@ namespace Ming.Rendering
         public Vector3 Offset = Vector3.zero;
         public MingUpdater MingUpdater;
 
-        [NonSerialized] public int QuadsPerBatchMesh = 256;
+        [NonSerialized] public int QuadsPerBatchMesh = 1024;
         [NonSerialized] public int SpritesRendered;
         [NonSerialized] public int MeshesRendered;
 
