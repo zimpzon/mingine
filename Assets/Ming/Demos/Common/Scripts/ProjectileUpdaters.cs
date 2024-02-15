@@ -51,8 +51,8 @@ namespace Ming.Demos.Common
             if (timeAlive < SpawnTime)
                 turnPower = 0.0f;
 
-            // this assumes target transform was set as CustomData when spawning the projectile
-            var desiredDir = (Vector2)((Transform)p.CustomData).position - p.Position;
+            // this assumes target transform was set as CustomObject1 when spawning the projectile
+            var desiredDir = (Vector2)((Transform)p.CustomObject1).position - p.Position;
             p.Velocity.x += (desiredDir.x - p.Velocity.x) * MingTime.DeltaTime * turnPower;
             p.Velocity.y += (desiredDir.y - p.Velocity.y) * MingTime.DeltaTime * turnPower;
             p.Velocity = p.Velocity.normalized;
@@ -66,10 +66,7 @@ namespace Ming.Demos.Common
 
         public static bool BasicMove(ref MingProjectile p)
         {
-            p.Position += p.Velocity * p.Speed * MingTime.DeltaTime;
-            float dist = (p.Position - p.StartPos).sqrMagnitude;
-            if (dist > p.MaxDist * p.MaxDist)
-                return false;
+            p.Position += p.Velocity * MingTime.DeltaTime;
 
             bool res = Physics2D.OverlapCircle(p.Position, p.CollisionSize, p.CollisionMask);
             return !res;

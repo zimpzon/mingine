@@ -5,13 +5,21 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public MingProjectileManager ProjectileManager;
-    public LayerMask PlayerBulletCollisionLayerMask; // -> blueprint
     public MingProjectileBlueprint PlayerBulletBlueprint;
+
+    void ProjectileUpdater(ref MingProjectile projectile)
+    {
+        projectile.Position += projectile.Velocity * Time.deltaTime;
+    }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            var projectile = new MingProjectile();
+            projectile.ApplyBlueprint(PlayerBulletBlueprint);
+            ProjectileManager.SpawnProjectile(ref projectile);
+
             // can updaters be scriptable objects?
             ProjectileSpawners.SpawnCircle(
                 PlayerBulletBlueprint,

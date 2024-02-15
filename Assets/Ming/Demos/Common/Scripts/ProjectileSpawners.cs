@@ -5,10 +5,10 @@ namespace Ming.Demos.Common
 {
     public static class ProjectileSpawners
     {
-        public static void SpawnCircle(MingProjectileBlueprint blueprint, Vector2 origin, float radius, int count, float speed, MingProjectileManager manager, MingProjectile.TickDelegate updateFunc)
+        public static void SpawnCircle(MingProjectileBlueprint blueprint, Vector2 origin, float radius, int count, float speed, MingProjectileManager manager, MingProjectile.UpdateProjectileCallback updateFunc)
         {
-            var proto = new MingProjectile();
-            proto.ApplyBlueprint(blueprint);
+            var projectile = new MingProjectile();
+            projectile.ApplyBlueprint(blueprint);
 
             for (int i = 0; i < count; ++i)
             {
@@ -17,49 +17,38 @@ namespace Ming.Demos.Common
                 var dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * 0.5f;
                 var pos = origin + dir * radius;
 
-                proto.Idx = i;
-                proto.StartPos = pos;
-                proto.Origin = pos;
-                proto.Position = pos;
-                proto.RotationDegrees = angleDegrees;
-                proto.Speed = speed;
-                proto.Velocity = dir * speed;
-                proto.UpdateCallback = updateFunc;
+                projectile.Position = pos;
+                projectile.RotationDegrees = angleDegrees;
+                projectile.Velocity = dir * speed;
+                projectile.UpdateProjectile = updateFunc;
 
-                manager.SpawnProjectile(ref proto);
+                manager.SpawnProjectile(ref projectile);
             }
         }
 
         // TODO: factory something? Param in an object?
-        public static void SpawnSingle(MingProjectileBlueprint blueprint, Vector2 origin, Vector2 dir, float speed, MingProjectileManager manager, MingProjectile.TickDelegate updateFunc)
+        public static void SpawnSingle(MingProjectileBlueprint blueprint, Vector2 origin, Vector2 dir, float speed, MingProjectileManager manager, MingProjectile.UpdateProjectileCallback updateFunc)
         {
-            var proto = new MingProjectile();
-            proto.ApplyBlueprint(blueprint);
+            var projectile = new MingProjectile();
+            projectile.ApplyBlueprint(blueprint);
 
-            proto.StartPos = origin;
-            proto.Origin = origin;
-            proto.Position = origin;
-            proto.RotationDegrees = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
-            proto.Speed = speed;
-            proto.Velocity = dir * speed;
-            proto.UpdateCallback = updateFunc;
+            projectile.Position = origin;
+            projectile.RotationDegrees = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+            projectile.Velocity = dir * speed;
+            projectile.UpdateProjectile = updateFunc;
 
-            manager.SpawnProjectile(ref proto);
+            manager.SpawnProjectile(ref projectile);
         }
 
         public static void SpawnPattern(MingProjectileBlueprint blueprint, Vector2 origin, Vector2 velocity, string[] pattern, MingProjectileManager manager)
         {
-            var proto = new MingProjectile();
-            proto.ApplyBlueprint(blueprint);
+            var projectile = new MingProjectile();
+            projectile.ApplyBlueprint(blueprint);
 
             foreach (var pos in ProjectilePatterns.PatternPositions(pattern, 0.5f))
             {
-                proto.Origin = origin;
-                proto.StartPos = origin + pos;
-                proto.OriginOffset = origin + pos;
-                proto.Velocity = velocity;
-                proto.UpdateCallback = ProjectileUpdaters.BasicMove;
-                proto.Position = proto.StartPos;
+                projectile.Velocity = velocity;
+                projectile.UpdateProjectile = ProjectileUpdaters.BasicMove;
             }
         }
     }

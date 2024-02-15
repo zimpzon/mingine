@@ -1,6 +1,5 @@
 ﻿using Ming.Engine;
 using Ming.Rendering;
-using Ming.Util;
 using System;
 using UnityEngine;
 
@@ -9,11 +8,12 @@ namespace Ming.Projectiles
     [RequireComponent(typeof(MingQuadRenderer))]
     public class MingProjectileManager : MingBehaviour, IMingObject
     {
-        public int InitialCapacity = 1000;
-        public string SpriteSortingLayerName = "Default";
-        public int SpriteSortingOrder = 0;
-
-        [SerializeField, MingLayer] public LayerMask ProjectileLayer;
+        [SerializeField] private int InitialCapacity = 1000;
+        [SerializeField] private string SpriteSortingLayerName = "Default";
+        [SerializeField] private int SpriteSortingOrder = 1;
+        [SerializeField] private string DropshadowSpriteSortingLayerName = "Default";
+        [SerializeField] private int DropshadowSpriteSortingOrder = 0;
+        [SerializeField] public LayerMask ProjectileLayer;
 
         private MingQuadRenderer _mingQuadRenderer;
 
@@ -52,17 +52,16 @@ namespace Ming.Projectiles
         {
             _projectiles[ActiveProjectiles++] = p;
 
-            if (ActiveProjectiles == _projectiles.Length)
+            bool expandLength = ActiveProjectiles == _projectiles.Length;
+            if (expandLength)
             {
                 Array.Resize(ref _projectiles, _projectiles.Length + (_projectiles.Length / 2));
-                //Debug.Log("Projectile array was expanded. Consider increasing initial capacity. New size: " + _projectiles.Length);
             }
         }
 
         void RenderProjectile(ref MingProjectile p)
         {
             Vector3 pos = p.Position;
-            pos.z = p.Z;
             _mingQuadRenderer.AddQuad(pos, p.Size, p.RotationDegrees, p.Size.y, p.Color, p.Sprite, p.Material, _projectileLayer);
 
             if (p.HasDropshadow)
@@ -80,7 +79,7 @@ namespace Ming.Projectiles
             int i = 0;
             while (i < ActiveProjectiles)
             {
-                bool success = _projectiles[i].UpdateCallback(ref _projectiles[i]);
+                bool success = _projectiles[i].UpdateProjectile(ref _projectiles[i]);
                 if (!success)
                 {
                     // Overwrite current with bottom of list and rerun current (i not incremented)
