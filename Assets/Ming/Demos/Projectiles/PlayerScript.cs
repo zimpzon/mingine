@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public MingProjectileManager ProjectileManager;
-    public LayerMask PlayerBulletCollisionLayerMask;
+    public LayerMask PlayerBulletCollisionLayerMask; // -> blueprint
     public MingProjectileBlueprint PlayerBulletBlueprint;
 
     void Update()

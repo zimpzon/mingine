@@ -7,11 +7,11 @@ using UnityEngine;
 namespace Ming.Projectiles
 {
     [RequireComponent(typeof(MingQuadRenderer))]
-    public class MingProjectileManager : MingBehaviour, IMingUpdate
+    public class MingProjectileManager : MingBehaviour, IMingObject
     {
-        public int InitialCapacity = 5000;
-        public float OffsetY;
-        public MingUpdater MingUpdater;
+        public int InitialCapacity = 1000;
+        public string SpriteSortingLayerName = "Default";
+        public int SpriteSortingOrder = 0;
 
         [SerializeField, MingLayer] public LayerMask ProjectileLayer;
 
@@ -32,7 +32,6 @@ namespace Ming.Projectiles
             {
                 var p = _projectiles[i];
                 var pos = p.Position;
-                pos.y += OffsetY;
                 Gizmos.DrawWireSphere(pos, p.CollisionSize);
             }
         }
@@ -64,7 +63,6 @@ namespace Ming.Projectiles
         {
             Vector3 pos = p.Position;
             pos.z = p.Z;
-            pos.y += OffsetY;
             _mingQuadRenderer.AddQuad(pos, p.Size, p.RotationDegrees, p.Size.y, p.Color, p.Sprite, p.Material, _projectileLayer);
 
             if (p.HasDropshadow)
@@ -74,8 +72,8 @@ namespace Ming.Projectiles
             }
         }
 
-        void OnEnable() { MingUpdater.RegisterForUpdate(this, MingUpdatePass.MingDrawMeshes); }
-        void OnDisable() { MingUpdater.UnregisterForUpdate(this, MingUpdatePass.MingDrawMeshes); }
+        void OnEnable() { MingMain.Instance.MingUpdater.RegisterForUpdate(this, MingUpdatePass.MingDrawMeshes); }
+        void OnDisable() { MingMain.Instance.MingUpdater.UnregisterForUpdate(this, MingUpdatePass.MingDrawMeshes); }
 
         public void MingUpdate(MingUpdatePass pass)
         {

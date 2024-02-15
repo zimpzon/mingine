@@ -5,10 +5,9 @@ using UnityEngine;
 
 namespace Ming.Rendering
 {
-    public class MingQuadRenderer : MingBehaviour, IMingUpdate
+    public class MingQuadRenderer : MingBehaviour, IMingObject
     {
         public Vector3 Offset = Vector3.zero;
-        public MingUpdater MingUpdater;
 
         [NonSerialized] public int QuadsPerBatchMesh = 1024;
         [NonSerialized] public int SpritesRendered;
@@ -41,8 +40,6 @@ namespace Ming.Rendering
             if (idx < 0)
             {
                 idx = CreateBatchRenderer(key, sprite.texture, material, layer);
-                //Debug.LogFormat("HordeBatchRenderer created, idx = {0}, key = {1}", idx, key);
-                //Debug.LogWarning("FIX ME. HordeBatchMesh have to call RecalculateBounds or everything is culled."); // Maybe manually render to camera on PreRender.
             }
 
             return _batches[idx];
@@ -68,12 +65,12 @@ namespace Ming.Rendering
             _keys = new ulong[InitialRendererCapacity];
             _rendererCount = 0;
 
-            MingUpdater.RegisterForUpdate(this, MingUpdatePass.MingDrawMeshes);
+            MingMain.Instance.MingUpdater.RegisterForUpdate(this, MingUpdatePass.MingDrawMeshes);
         }
 
         void OnDisable()
         {
-            MingUpdater.UnregisterForUpdate(this, MingUpdatePass.MingDrawMeshes);
+            MingMain.Instance.MingUpdater.UnregisterForUpdate(this, MingUpdatePass.MingDrawMeshes);
         }
 
         public void MingUpdate(MingUpdatePass pass)

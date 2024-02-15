@@ -1,7 +1,8 @@
+using Ming.Engine;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public sealed class MingSortingLayerExposer : MonoBehaviour
+public sealed class MingSortingLayerExposer : MingBehaviour
 {
     [SerializeField]
     private string SortingLayerName = "Default";
