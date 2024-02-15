@@ -6,50 +6,33 @@ namespace Ming.Demos.Common
 {
     public static class ProjectileUpdaters
     {
-        public static bool CirclingMove(ref MingProjectile p)
-        {
-            p.Origin += p.Velocity * MingTime.DeltaTime;
-            var oldPos = p.Position;
-
-            float deg = MingTime.Time * 500 + p.Idx * 5;
-            float sin = Mathf.Sin(-deg * Mathf.Deg2Rad);
-            float cos = Mathf.Cos(-deg * Mathf.Deg2Rad);
-
-            p.Position.x = p.Origin.x + cos - sin;
-            p.Position.y = p.Origin.y + sin + cos;
-
-            var move = p.Position - oldPos;
-            p.RotationDegrees = Mathf.Atan2(move.x, move.y) * Mathf.Rad2Deg;
-
-            // return false on destroy
-            return true;
-        }
-
         public static bool ChaseTarget(ref MingProjectile p)
         {
-            float timeAlive = MingTime.Time - p.StartTime;
-
             // Spawn fast -> stop -> start engines
             const float SpawnTime = 1.0f;
 
+            float speed = p.Velocity.magnitude;
+
             float moveSpeed;
-            if (timeAlive < SpawnTime)
+            if (p.TimeSinceSpawn < SpawnTime)
             {
                 // First x seconds: Go from full speed to 0
-                moveSpeed = (SpawnTime - timeAlive) * (1.0f / SpawnTime);
+                moveSpeed = (SpawnTime - p.TimeSinceSpawn) * (1.0f / SpawnTime);
                 moveSpeed *= moveSpeed;
-                moveSpeed *= p.Speed;
+                moveSpeed *= speed;
             }
             else
             {
                 // After x seconds: speed up to max speed
-                float t = (timeAlive - SpawnTime) * 2;
-                moveSpeed = Mathf.Clamp(t * t * t, 0.0f, p.Speed);
+                float t = (p.TimeSinceSpawn - SpawnTime) * 2;
+                moveSpeed = Mathf.Clamp(t * t * t, 0.0f, speed);
             }
 
             float turnPower = moveSpeed * 0.1f;
-            if (timeAlive < SpawnTime)
+            if (p.TimeSinceSpawn < SpawnTime)
+            {
                 turnPower = 0.0f;
+            }
 
             // this assumes target transform was set as CustomObject1 when spawning the projectile
             var desiredDir = (Vector2)((Transform)p.CustomObject1).position - p.Position;
@@ -57,7 +40,7 @@ namespace Ming.Demos.Common
             p.Velocity.y += (desiredDir.y - p.Velocity.y) * MingTime.DeltaTime * turnPower;
             p.Velocity = p.Velocity.normalized;
 
-            p.Position += p.Velocity * MingTime.DeltaTime * moveSpeed * p.Speed;
+            p.Position += p.Velocity * MingTime.DeltaTime * moveSpeed;
             p.RotationDegrees = Mathf.Atan2(p.Velocity.x, p.Velocity.y) * Mathf.Rad2Deg;
 
             // return false on destroy

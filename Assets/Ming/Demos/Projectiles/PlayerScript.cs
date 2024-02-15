@@ -16,11 +16,10 @@ public class PlayerScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            var projectile = new MingProjectile();
-            projectile.ApplyBlueprint(PlayerBulletBlueprint);
-            ProjectileManager.SpawnProjectile(ref projectile);
+            //var projectile = new MingProjectile();
+            //projectile.ApplyBlueprint(PlayerBulletBlueprint);
+            //ProjectileManager.SpawnProjectile(ref projectile);
 
-            // can updaters be scriptable objects?
             ProjectileSpawners.SpawnCircle(
                 PlayerBulletBlueprint,
                 transform.position,

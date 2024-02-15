@@ -16,13 +16,6 @@ namespace Ming.Projectiles
             Size = blueprint.Size;
             Color = blueprint.Color;
 
-            HasDropshadow = blueprint.HasDropshadow;
-            DropshadowSprite = blueprint.DropshadowSprite;
-            DropshadowMaterial = blueprint.DropshadowMaterial;
-            DropshadowSize = blueprint.DropshadowSize;
-            DropshadowColor = blueprint.DropshadowColor;
-            DropshadowOffset = blueprint.DropshadowOffset;
-
             CollisionSize = blueprint.CollisionSize;
             CollisionMask = blueprint.CollisionLayerMask;
 
@@ -41,13 +34,6 @@ namespace Ming.Projectiles
 
         public float CollisionSize; // Change: Yes
         public LayerMask CollisionMask; // Change: Yes
-
-        public bool HasDropshadow; // Change: Yes
-        public Sprite DropshadowSprite; // Change: Maybe (within sprite sheet?)
-        public Material DropshadowMaterial; // Change: No
-        public Vector2 DropshadowSize; // Change: Yes
-        public Color DropshadowColor; // Change: Yes
-        public Vector2 DropshadowOffset; // Change: Yes
 
         // Other data
         public float TimeSinceSpawn; // Change: Yes, but also updated by engine

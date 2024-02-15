@@ -11,8 +11,6 @@ namespace Ming.Projectiles
         [SerializeField] private int InitialCapacity = 1000;
         [SerializeField] private string SpriteSortingLayerName = "Default";
         [SerializeField] private int SpriteSortingOrder = 1;
-        [SerializeField] private string DropshadowSpriteSortingLayerName = "Default";
-        [SerializeField] private int DropshadowSpriteSortingOrder = 0;
         [SerializeField] public LayerMask ProjectileLayer;
 
         private MingQuadRenderer _mingQuadRenderer;
@@ -63,12 +61,6 @@ namespace Ming.Projectiles
         {
             Vector3 pos = p.Position;
             _mingQuadRenderer.AddQuad(pos, p.Size, p.RotationDegrees, p.Size.y, p.Color, p.Sprite, p.Material, _projectileLayer);
-
-            if (p.HasDropshadow)
-            {
-                pos += (Vector3)p.DropshadowOffset;
-                _mingQuadRenderer.AddQuad(pos, p.DropshadowSize, p.RotationDegrees, p.DropshadowSize.y, p.DropshadowColor, p.DropshadowSprite, p.DropshadowMaterial, _lightLayer);
-            }
         }
 
         void OnEnable() { MingMain.Instance.MingUpdater.RegisterForUpdate(this, MingUpdatePass.MingDrawMeshes); }

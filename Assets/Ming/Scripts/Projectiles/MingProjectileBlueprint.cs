@@ -1,5 +1,4 @@
-﻿using Ming.Util;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Ming.Projectiles
 {
@@ -17,12 +16,5 @@ namespace Ming.Projectiles
 
         public float MaxDistance = 20;
         public float MaxTime = 10;
-
-        public bool HasDropshadow;
-        public Sprite DropshadowSprite;
-        public Material DropshadowMaterial;
-        public Vector2 DropshadowSize = Vector2.one;
-        public Color32 DropshadowColor = UnityEngine.Color.black;
-        public Vector2 DropshadowOffset;
     }
 }
