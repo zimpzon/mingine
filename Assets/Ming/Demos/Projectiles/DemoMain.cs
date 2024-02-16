@@ -1,4 +1,4 @@
-using Ming.Projectiles;
+using Ming;
 using TMPro;
 using UnityEngine;
 

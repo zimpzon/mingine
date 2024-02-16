@@ -1,5 +1,4 @@
-using Ming.Demos.Common;
-using Ming.Projectiles;
+using Ming;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
