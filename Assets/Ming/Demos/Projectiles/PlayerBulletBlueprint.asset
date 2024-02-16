@@ -19,16 +19,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   CollisionSize: 0.25
-  CollisionMask:
+  CollisionOffset: {x: 0, y: 0}
+  CollisionLayerMask:
     serializedVersion: 2
     m_Bits: 64
   MaxDistance: 20
   MaxTime: 10
-  HasDropshadow: 0
-  DropshadowSprite: {fileID: 21300000, guid: 638578969237fef429c3ed31b3265584, type: 3}
-  DropshadowMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  DropshadowSize: {x: 1, y: 1}
-  DropshadowColor:
-    serializedVersion: 2
-    rgba: 2365587456
-  DropshadowOffset: {x: 0.1, y: -0.1}

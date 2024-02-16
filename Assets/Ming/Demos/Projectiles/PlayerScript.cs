@@ -48,7 +48,8 @@ public class PlayerScript : MonoBehaviour
             _playerSpriteRenderer.flipX = moveVec.x < 0;
         }
 
-        _playerSpriteRenderer.sprite = MingSimpleSpriteAnimator.GetAnimationSprite(isMoving ? PlayerAnimationFrames.Run : PlayerAnimationFrames.Idle, PlayerAnimationFrames.AnimationFramesPerSecond);
+        Sprite[] activeAnimation = isMoving ? PlayerAnimationFrames.Run : PlayerAnimationFrames.Idle;
+        _playerSpriteRenderer.sprite = MingSimpleSpriteAnimator.GetAnimationSprite(activeAnimation, PlayerAnimationFrames.AnimationFramesPerSecond);
 
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -60,7 +61,7 @@ public class PlayerScript : MonoBehaviour
                 PlayerBulletBlueprint,
                 transform.position,
                 radius: 1.0f,
-                count: 100,
+                count: 32,
                 speed: 3,
                 ProjectileManager,
                 ProjectileUpdaters.BasicMove);

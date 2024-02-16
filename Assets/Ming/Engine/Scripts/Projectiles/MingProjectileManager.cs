@@ -15,8 +15,7 @@ namespace Ming
         private MingProjectile[] _projectiles;
         private int _projectileLayer;
 
-        [Header("Debug")]
-        public int ActiveProjectiles;
+        [MingReadOnly] public int ActiveProjectiles;
 
         void OnDrawGizmos()
         {
