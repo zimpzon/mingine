@@ -1,20 +1,24 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ming
 {
     public class MingQuadRenderer : MingBehaviour, IMingObject
     {
-        public Vector3 Offset = Vector3.zero;
+        public string SortingLayerName = "Default";
+        public int SortingOrder = 1;
 
-        [NonSerialized] public int QuadsPerBatchMesh = 1024;
-        [NonSerialized] public int SpritesRendered;
-        [NonSerialized] public int MeshesRendered;
+        [MingReadOnly] public int QuadsPerBatchMesh = 1024;
+        [MingReadOnly] public int SpritesRendered;
+        [MingReadOnly] public int MeshesRendered;
 
-        private const int InitialRendererCapacity = 128;
+        private const int InitialRendererCapacity = 32;
         private MingBatchRenderer[] _batches;
         private ulong[] _keys;
         private int _rendererCount;
+
+        private List<GameObject> _unityMeshRenderers = new List<GameObject>();
 
         public void AddQuad(Vector3 center, Vector2 size, float rotationDegrees, float zSkew, Color32 color, Sprite sprite, Material material, int layer)
         {
@@ -71,10 +75,27 @@ namespace Ming
             MingMain.Instance.MingUpdater.UnregisterForUpdate(this, MingUpdatePass.MingDrawMeshes);
         }
 
+        GameObject CreateUnityMeshRenderer()
+        {
+            var go = new GameObject();
+            go.layer = gameObject.layer;
+            go.name = $"{nameof(MingQuadRenderer)} mesh";
+
+            var meshRenderer = go.AddComponent<MeshRenderer>();
+            meshRenderer.sortingLayerName = SortingLayerName;
+            meshRenderer.sortingOrder = SortingOrder;
+
+            go.AddComponent<MeshFilter>();
+            go.transform.SetParent(this.transform);
+            return go;
+        }
+
         public void MingUpdate(MingUpdatePass pass)
         {
             Matrix4x4 matrix = Matrix4x4.identity;
-            matrix.SetTRS(Offset, Quaternion.identity, Vector3.one);
+            matrix.SetTRS(Vector3.zero, Quaternion.identity, Vector3.one);
+
+            int unityRendererIdx = 0;
 
             SpritesRendered = 0;
             MeshesRendered = 0;
@@ -85,12 +106,29 @@ namespace Ming
                 int activeMeshes = batch.GetActiveMeshCount();
                 for (int j = 0; j < activeMeshes; ++j)
                 {
-                    // TODO: DrawMesh does not always show in the editor. Seems to lag exactly one update behind.
-                    Graphics.DrawMesh(batch.Meshes[j].Mesh, matrix, batch.Material, batch.Layer);
+                    if (unityRendererIdx == _unityMeshRenderers.Count)
+                    {
+                        _unityMeshRenderers.Add(CreateUnityMeshRenderer());
+                    }
+
+                    var unityMeshRenderer = _unityMeshRenderers[unityRendererIdx++];
+                    unityMeshRenderer.SetActive(true);
+                    unityMeshRenderer.GetComponent<MeshFilter>().mesh = batch.Meshes[j].Mesh;
+
+                    var unityMesh = unityMeshRenderer.GetComponent<MeshRenderer>();
+                    unityMesh.material = batch.Material;
+
+                    //Graphics.DrawMesh(batch.Meshes[j].Mesh, matrix, batch.Material, batch.Layer);
                     SpritesRendered += batch.Meshes[j].ActiveQuadCount;
                     MeshesRendered++;
                 }
                 batch.Clear();
+            }
+
+            // disable Unity mesh renderers not used in this frame
+            for (int i = unityRendererIdx; i < _unityMeshRenderers.Count; ++i)
+            {
+                _unityMeshRenderers[i].SetActive(false);
             }
         }
     }

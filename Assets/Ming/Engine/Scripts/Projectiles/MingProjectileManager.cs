@@ -7,8 +7,6 @@ namespace Ming
     public class MingProjectileManager : MingBehaviour, IMingObject
     {
         [SerializeField] private int InitialCapacity = 1000;
-        [SerializeField] private string SpriteSortingLayerName = "Default";
-        [SerializeField] private int SpriteSortingOrder = 1;
         [SerializeField] public LayerMask ProjectileLayer;
 
         private MingQuadRenderer _mingQuadRenderer;

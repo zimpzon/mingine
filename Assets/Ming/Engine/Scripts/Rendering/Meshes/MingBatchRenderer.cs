@@ -9,17 +9,17 @@ namespace Ming
     /// </summary>
     public class MingBatchRenderer
     {
-        [NonSerialized]public Texture Texture;
-        [NonSerialized]public Material Material;
-        [NonSerialized]public ulong Id;
-        [NonSerialized]public int Layer;
-        [NonSerialized]public int QuadsPerMesh;
-        [NonSerialized]public List<MingBatchMesh> Meshes = new List<MingBatchMesh>();
+        [NonSerialized] public Texture Texture;
+        [NonSerialized] public Material Material;
+        [NonSerialized] public ulong Id;
+        [NonSerialized] public int Layer;
+        [NonSerialized] public int QuadsPerMesh;
+        [NonSerialized] public List<MingBatchMesh> Meshes = new List<MingBatchMesh>();
         [NonSerialized] public int QuadCount;
 
-        int totalQuadCapacity_;
-        float textureXToUV_;
-        float textureYToUV_;
+        int _totalQuadCapacity;
+        float _textureXToUV;
+        float _textureYToUV;
 
         public MingBatchRenderer(ulong id, Texture texture, Material material, int layer, int quadsPerMesh)
         {
@@ -27,8 +27,8 @@ namespace Ming
             QuadsPerMesh = quadsPerMesh;
 
             Texture = texture;
-            textureXToUV_ = 1.0f / Texture.width;
-            textureYToUV_ = 1.0f / Texture.height;
+            _textureXToUV = 1.0f / Texture.width;
+            _textureYToUV = 1.0f / Texture.height;
 
             Material = new Material(material)
             {
@@ -58,20 +58,19 @@ namespace Ming
         public void AddQuad(Vector3 center, Vector2 size, float rotationDegrees, float zSkew, Color32 color, Sprite sprite)
         {
             QuadCount++;
-            if (QuadCount > totalQuadCapacity_)
+            if (QuadCount > _totalQuadCapacity)
             {
-                // Optimization TODO: Could get this from a cache and return them on clear.
                 var newMesh = new MingBatchMesh(QuadsPerMesh);
                 Meshes.Add(newMesh);
-                totalQuadCapacity_ += QuadsPerMesh;
+                _totalQuadCapacity += QuadsPerMesh;
             }
 
             int meshIdx = (QuadCount - 1) / QuadsPerMesh;
             var currentMesh = Meshes[meshIdx];
 
             var textureRect = sprite.rect;
-            Vector2 uvTopLeft = new Vector2(textureRect.x * textureXToUV_, (textureRect.y + textureRect.height) * textureYToUV_);
-            Vector2 uvSize = new Vector2(textureRect.width * textureXToUV_, textureRect.height * textureYToUV_);
+            Vector2 uvTopLeft = new Vector2(textureRect.x * _textureXToUV, (textureRect.y + textureRect.height) * _textureYToUV);
+            Vector2 uvSize = new Vector2(textureRect.width * _textureXToUV, textureRect.height * _textureYToUV);
             currentMesh.AddQuad(center, size, rotationDegrees, zSkew, uvTopLeft, uvSize, color);
         }
     }
