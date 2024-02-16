@@ -34,13 +34,13 @@ namespace Ming
 
         void Update()
         {
-            MingTime.Update(Time.time, Time.deltaTime, Time.unscaledTime);
-            _mingUpdater.UpdateAll();
+            MingTime.Update(Time.time, Time.deltaTime, Time.unscaledTime, Time.unscaledDeltaTime);
+            _mingUpdater.MingUpdateAll();
         }
 
         void LateUpdate()
         {
-            _mingUpdater.LateUpdateAll();
+            _mingUpdater.MingLateUpdateAll();
         }
     }
 }

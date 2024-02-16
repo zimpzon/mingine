@@ -35,7 +35,7 @@ namespace Ming
             }
         }
 
-        public void UpdateAll()
+        public void MingUpdateAll()
         {
             foreach(var pair in _passes)
             {
@@ -51,7 +51,7 @@ namespace Ming
             }
         }
 
-        public void LateUpdateAll()
+        public void MingLateUpdateAll()
         {
             foreach (var pair in _passes)
             {

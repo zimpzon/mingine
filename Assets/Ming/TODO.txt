@@ -17,4 +17,13 @@ is is not used:
 
 
 
+Pixel dudes sprite sheet:
+
+0: static
+1-4: idle
+5-8: run
+9-15: jump
+
 https://0x72.itch.io/pixeldudesmaker
+
+https://masterpose.itch.io/pixelduuuuudesmaker (more links inside)
