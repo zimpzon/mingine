@@ -14,6 +14,6 @@ public class DemoMain : MonoBehaviour
 
     void Update()
     {
-        TextProjectileCount.text = "Projectile count: " + ProjectileManager.ActiveProjectiles;
+        TextProjectileCount.SetText("Projectile count: {0}", ProjectileManager.ActiveProjectiles);
     }
 }

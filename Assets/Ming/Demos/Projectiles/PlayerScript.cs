@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour
 
     private IMingSimpleInput<MingSimpleInputType> _input = new MingDefaultSimpleInputMapper();
     private SpriteRenderer _playerSpriteRenderer;
+    private Rigidbody2D _rigidbody;
 
     void ProjectileUpdater(ref MingProjectile projectile)
     {
@@ -20,34 +21,40 @@ public class PlayerScript : MonoBehaviour
 
     private void Awake()
     {
-        _playerSpriteRenderer = MingGameObjects.FindByName(transform, "Body").GetComponent<SpriteRenderer>();
+        _playerSpriteRenderer = MingGameObjects.FindByName(transform, "Sprite").GetComponent<SpriteRenderer>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
-        Vector3 moveVec = Vector3.zero;
+        Vector2 moveVec = Vector2.zero;
 
         if (_input.IsActive(MingSimpleInputType.Left))
-            moveVec += Vector3.left;
+            moveVec += Vector2.left;
 
         if (_input.IsActive(MingSimpleInputType.Right))
-            moveVec += Vector3.right;
+            moveVec += Vector2.right;
 
         if (_input.IsActive(MingSimpleInputType.Up))
-            moveVec += Vector3.up;
+            moveVec += Vector2.up;
 
         if (_input.IsActive(MingSimpleInputType.Down))
-            moveVec += Vector3.down;
+            moveVec += Vector2.down;
 
         moveVec.Normalize();
-        transform.position += moveVec * MingTime.DeltaTime * MoveSpeed;
+        Vector2 newPosition = _rigidbody.position + moveVec * MoveSpeed * Time.deltaTime;
 
-        bool isMoving = moveVec.sqrMagnitude > 0;
-        if (isMoving)
+        // https://docs.unity3d.com/2023.1/Documentation/ScriptReference/Rigidbody2D.Slide.html
+        // unity 2023 and use slide?
+        _rigidbody.MovePosition(newPosition);
+
+        bool isMovingHorizontally = moveVec.x != 0;
+        if (isMovingHorizontally)
         {
             _playerSpriteRenderer.flipX = moveVec.x < 0;
         }
 
+        bool isMoving = moveVec != Vector2.zero;
         Sprite[] activeAnimation = isMoving ? PlayerAnimationFrames.Run : PlayerAnimationFrames.Idle;
         _playerSpriteRenderer.sprite = MingSimpleSpriteAnimator.GetAnimationSprite(activeAnimation, PlayerAnimationFrames.AnimationFramesPerSecond);
 
@@ -61,7 +68,7 @@ public class PlayerScript : MonoBehaviour
                 PlayerBulletBlueprint,
                 transform.position,
                 radius: 1.0f,
-                count: 32,
+                count: 200,
                 speed: 3,
                 ProjectileManager,
                 ProjectileUpdaters.BasicMove);

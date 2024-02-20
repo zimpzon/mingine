@@ -48,7 +48,11 @@ public static class ProjectileUpdaters
     {
         p.Position += p.Velocity * MingTime.DeltaTime;
 
-        bool res = Physics2D.OverlapCircle(p.Position, p.CollisionSize, p.CollisionMask);
-        return !res;
+        bool isHit = Physics2D.OverlapCircle(p.Position, p.CollisionSize, p.CollisionMask);
+        if (isHit)
+        {
+            MingPixelDustParticles.Trigger(p.Position, new Color(220, 150, 0), 3);
+        }
+        return !isHit;
     }
 }
