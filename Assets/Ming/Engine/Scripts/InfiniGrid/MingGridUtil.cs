@@ -11,6 +11,15 @@ namespace Ming
             return new RectInt(x, y, viewWidth, viewHeight);
         }
 
+        public static RectInt AddPadding(RectInt rect, int padding)
+        {
+            rect.x -= padding;
+            rect.y -= padding;
+            rect.width += padding * 2;
+            rect.height += padding * 2;
+            return rect;
+        }
+
         public static RectInt GetOverlappingChunks(RectInt cellRect)
         {
             // Calculate the starting chunk indices

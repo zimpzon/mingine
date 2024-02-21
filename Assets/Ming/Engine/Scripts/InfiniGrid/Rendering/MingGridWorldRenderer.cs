@@ -5,10 +5,13 @@ namespace Ming
     public class MingGridWorldRenderer : MingBehaviour
     {
         public int ViewTileWidth = 30;
-        public int ViewTileHeight = 20;
+        public int ViewTileHeight = 20; 
+        public int PreloadPadding = 10;
 
         public string FloorSortingLayerName = "InfiniGridFloor";
         public int FloorSortingOrder = 0;
+        public Sprite FloorSprite;
+        public Material FloorMaterial;
         
         public string RoofSortingLayerName = "InfiniGridRoof";
         public int RoofSortingOrder = 0;
@@ -27,8 +30,6 @@ namespace Ming
             if (_mingGridWorld == null)
                 return;
 
-            _mingGridWorld.EnsureLoaded(viewTileRect);
-
             foreach (MingGridChunk chunk in _mingGridWorld.LoadedChunks.Values)
             {
                 MingGizmoHelper.DrawRectangle(chunk.GridBounds, Color.cyan, $"{chunk.ChunkId}", Color.white);
@@ -44,7 +45,38 @@ namespace Ming
             _quadRendererRoofLayer = CreateMingQuadMeshRenderer(RoofSortingLayerName, RoofSortingOrder);
         }
 
-        MingQuadRenderer CreateMingQuadMeshRenderer(string sortingLayerName, int sortingOrder)
+        private void Update()
+        {
+            RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
+            _mingGridWorld.EnsureLoaded(MingGridUtil.AddPadding(viewTileRect, PreloadPadding));
+
+            var chunks = _mingGridWorld.LoadedChunks.Values;
+
+            for (int y = viewTileRect.yMin; y < viewTileRect.yMax; y++)
+            {
+                for (int x = viewTileRect.xMin; x < viewTileRect.xMax; x++)
+                {
+                    Vector2Int chunkId = new Vector2Int(x / MingGridWorld.ChunkSize, y / MingGridWorld.ChunkSize);
+                    MingGridChunk chunk = _mingGridWorld.LoadedChunks[chunkId];
+                    int localX = x - chunk.GridPosition.x;
+                    int localY = y - chunk.GridPosition.y;
+                    Debug.DrawRay(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.up * 0.25f, Color.magenta, 0.1f);
+                    //int tileId = chunk.FloorTiles[localX + localY * MingGridWorld.ChunkSize];
+
+                    //_quadRendererFloorLayer.AddQuad(
+                    //    new Vector3(x, y, 0),
+                    //    new Vector2(1, 1),
+                    //    0,
+                    //    0,
+                    //    Color.white,
+                    //    FloorSprite,
+                    //    FloorMaterial,
+                    //    gameObject.layer);
+                }
+            }
+        }
+
+        private MingQuadRenderer CreateMingQuadMeshRenderer(string sortingLayerName, int sortingOrder)
         {
             var go = new GameObject
             {

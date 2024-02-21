@@ -11,7 +11,7 @@ namespace Ming
 
         private readonly IMingGridChunkStore _chunkStore;
         private readonly IMingGridWorldBuilder _worldBuilder;
-        [NonSerialized]public  readonly Dictionary<Vector2Int, MingGridChunk> LoadedChunks = new();
+        [NonSerialized] public readonly Dictionary<Vector2Int, MingGridChunk> LoadedChunks = new();
 
         public MingGridWorld(IMingGridChunkStore chunkStore, IMingGridWorldBuilder worldBuilder)
         {
