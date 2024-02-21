@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ming
@@ -10,7 +11,7 @@ namespace Ming
 
         private readonly IMingGridChunkStore _chunkStore;
         private readonly IMingGridWorldBuilder _worldBuilder;
-        private readonly Dictionary<Vector2Int, MingGridChunk> _loadedChunks = new();
+        [NonSerialized]public  readonly Dictionary<Vector2Int, MingGridChunk> LoadedChunks = new();
 
         public MingGridWorld(IMingGridChunkStore chunkStore, IMingGridWorldBuilder worldBuilder)
         {
@@ -30,14 +31,14 @@ namespace Ming
 
         public void EnsureLoaded(Vector2Int chunkCell)
         {
-            if (!_loadedChunks.ContainsKey(chunkCell))
+            if (!LoadedChunks.ContainsKey(chunkCell))
             {
                 if (!_chunkStore.TryLoadChunk(chunkCell, out MingGridChunk newChunk))
                 {
-                    newChunk = _worldBuilder.CreateChunk(chunkCell);
+                    newChunk = _worldBuilder.CreateChunk(chunkCell, ChunkSize);
                 }
 
-                _loadedChunks[chunkCell] = newChunk;
+                LoadedChunks[chunkCell] = newChunk;
             }
         }
     }

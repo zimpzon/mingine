@@ -2,14 +2,9 @@
 
 namespace Ming
 {
-    public class Mapping
-    {
-        public int Id;
-        public Sprite TileSprite;
-    }
-
+    [CreateAssetMenu(fileName = "new MingGridTileSprites.asset", menuName = "Ming/InfiniGrid/TileSprites")]
     public class MingGridTileSprites : ScriptableObject
     {
-        public Mapping[] TileSprites;
+        public Sprite[] TileSprites;
     }
 }

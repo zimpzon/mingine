@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e089215a31678419c0beca39584097, type: 3}
+  m_Name: new MingGridTileSprites
+  m_EditorClassIdentifier: 
+  TileSprites:
+  - {fileID: -77960560, guid: 13ddffb7c3d32184e9c2bb41e3a7bb5e, type: 3}
+  - {fileID: -1699165002, guid: 13ddffb7c3d32184e9c2bb41e3a7bb5e, type: 3}
+  - {fileID: 1581962900, guid: 13ddffb7c3d32184e9c2bb41e3a7bb5e, type: 3}
+  - {fileID: 880745114, guid: 13ddffb7c3d32184e9c2bb41e3a7bb5e, type: 3}

@@ -1,13 +1,30 @@
-﻿namespace Ming
+﻿using UnityEngine;
+
+namespace Ming
 {
+    public class MingGridChunkRenderer
+    {
+        public void abc(MingGridChunk chunk, Mesh mesh)
+        {
+            // ou
+            byte tileId = 1;
+
+        }
+    }
+
     public class MingGridChunk
     {
+        public Vector2Int WorldPosition;
+        public RectInt Bounds;
+
         public int[] FloorTiles;
 
         private int _chunkCells;
 
-        public MingGridChunk(int chunkSize)
+        public MingGridChunk(Vector2Int worldPosition, int chunkSize)
         {
+            WorldPosition = worldPosition;
+            Bounds = new RectInt(worldPosition.x, worldPosition.y, chunkSize, chunkSize);
             _chunkCells = chunkSize * chunkSize;
             FloorTiles = new int[_chunkCells];
         }
