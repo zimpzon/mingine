@@ -6,7 +6,7 @@ namespace Ming
 {
     public class MingGridWorld
     {
-        public const int ChunkSize = 8;
+        public const int ChunkSize = 16;
         public const int ChunkCells = ChunkSize * ChunkSize;
 
         private readonly IMingGridChunkStore _chunkStore;
@@ -19,26 +19,26 @@ namespace Ming
             _worldBuilder = worldBuilder;
         }
 
-        public void EnsureLoaded(RectInt cellArea)
+        public void EnsureLoaded(RectInt tileRect)
         {
-            RectInt chunkRect = MingGridUtil.ChunkRectFromCellRect(cellArea);
+            RectInt chunkRect = MingGridUtil.GetOverlappingChunks(tileRect);
 
-            foreach (Vector2Int chunkCell in chunkRect.allPositionsWithin)
+            foreach (Vector2Int chunkId in chunkRect.allPositionsWithin)
             {
-                EnsureLoaded(chunkCell);
+                EnsureLoaded(chunkId);
             }
         }
 
-        public void EnsureLoaded(Vector2Int chunkCell)
+        public void EnsureLoaded(Vector2Int chunkId)
         {
-            if (!LoadedChunks.ContainsKey(chunkCell))
+            if (!LoadedChunks.ContainsKey(chunkId))
             {
-                if (!_chunkStore.TryLoadChunk(chunkCell, out MingGridChunk newChunk))
+                if (!_chunkStore.TryLoadChunk(chunkId, out MingGridChunk newChunk))
                 {
-                    newChunk = _worldBuilder.CreateChunk(chunkCell, ChunkSize);
+                    newChunk = _worldBuilder.CreateChunk(chunkId, ChunkSize);
                 }
 
-                LoadedChunks[chunkCell] = newChunk;
+                LoadedChunks[chunkId] = newChunk;
             }
         }
     }

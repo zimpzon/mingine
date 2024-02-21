@@ -7,7 +7,7 @@ namespace Ming
     /// </summary>
     public class MingMain : MingBehaviour, IMingMain
     {
-        public static IMingMain Instance;
+        public static IMingMain Instance = MingMainNull.Instance;
 
         public IMingUpdater MingUpdater => _mingUpdater;
 
@@ -20,7 +20,7 @@ namespace Ming
 
         private void TryClaimSingleton()
         {
-            bool alreadyExists = Instance != null;
+            bool alreadyExists = Instance != MingMainNull.Instance;
             if (alreadyExists)
             {
                 Destroy(gameObject);

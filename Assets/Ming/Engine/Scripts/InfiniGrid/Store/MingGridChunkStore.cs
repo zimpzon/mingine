@@ -4,13 +4,13 @@ namespace Ming
 {
     public class MingGridChunkStore : IMingGridChunkStore
     {
-        public bool TryLoadChunk(Vector2Int chunkCell, out MingGridChunk loadedChunk)
+        public bool TryLoadChunk(Vector2Int chunkId, out MingGridChunk loadedChunk)
         {
             loadedChunk = null;
             return false;
         }
 
-        public void SaveChunk(Vector2Int chunkPos)
+        public void SaveChunk(MingGridChunk chunk)
         {
             throw new System.NotImplementedException();
         }

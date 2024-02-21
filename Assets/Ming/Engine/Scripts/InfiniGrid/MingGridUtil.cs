@@ -11,13 +11,21 @@ namespace Ming
             return new RectInt(x, y, viewWidth, viewHeight);
         }
 
-        public static RectInt ChunkRectFromCellRect(RectInt cellRect)
+        public static RectInt GetOverlappingChunks(RectInt cellRect)
         {
-            var chunkX = cellRect.x / MingGridWorld.ChunkSize;
-            var chunkY = cellRect.y / MingGridWorld.ChunkSize;
-            var chunkWidth = (cellRect.width + MingGridWorld.ChunkSize - 1) / MingGridWorld.ChunkSize;
-            var chunkHeight = (cellRect.height + MingGridWorld.ChunkSize - 1) / MingGridWorld.ChunkSize;
-            return new RectInt(chunkX, chunkY, chunkWidth, chunkHeight);
+            // Calculate the starting chunk indices
+            int x = Mathf.FloorToInt((float)cellRect.x / MingGridWorld.ChunkSize);
+            int y = Mathf.FloorToInt((float)cellRect.y / MingGridWorld.ChunkSize);
+
+            // Calculate the ending chunk indices based on the cellRect's max values
+            int xMax = Mathf.CeilToInt((float)(cellRect.x + cellRect.width) / MingGridWorld.ChunkSize);
+            int yMax = Mathf.CeilToInt((float)(cellRect.y + cellRect.height) / MingGridWorld.ChunkSize);
+
+            // Compute width and height of the chunk area
+            int w = xMax - x;
+            int h = yMax - y;
+
+            return new RectInt(x, y, w, h);
         }
 
         public static RectInt CellRectFromChunkRect(RectInt chunkRect)

@@ -16,11 +16,11 @@ namespace Ming
             Gizmos.DrawLine(new Vector3(rect.x + rect.width, rect.y + rect.height), new Vector3(rect.x, rect.y + rect.height));
             Gizmos.DrawLine(new Vector3(rect.x, rect.y + rect.height), new Vector3(rect.x, rect.y));
 
-            drawString(name, new Vector3(rect.x, rect.yMax) + nameOffset ?? Vector2.zero, color);
+            Text(name, new Vector2(rect.x, rect.yMax) + (nameOffset ?? Vector3.zero), color);
 #endif
         }
 
-        static void drawString(string text, Vector3 worldPos, Color? colour = null)
+        public static void Text(string text, Vector2 worldPos, Color? colour = null)
         {
 #if UNITY_EDITOR
             UnityEditor.Handles.color = Color.white;

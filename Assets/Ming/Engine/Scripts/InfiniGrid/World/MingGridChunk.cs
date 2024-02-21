@@ -14,21 +14,23 @@ namespace Ming
 
     public class MingGridChunk
     {
-        public Vector2Int WorldPosition;
-        public RectInt Bounds;
+        public Vector2Int ChunkId;
+        public Vector2Int GridPosition;
+        public RectInt GridBounds;
 
         public int[] FloorTiles;
 
         private int _chunkCells;
 
-        public MingGridChunk(Vector2Int worldPosition, int chunkSize)
+        public MingGridChunk(Vector2Int chunkId, int chunkSize)
         {
-            WorldPosition = worldPosition;
-            Bounds = new RectInt(worldPosition.x, worldPosition.y, chunkSize, chunkSize);
+            ChunkId = chunkId;
+            GridPosition = ChunkId * chunkSize;
+            GridBounds = new RectInt(GridPosition.x, GridPosition.y, chunkSize, chunkSize);
+
             _chunkCells = chunkSize * chunkSize;
             FloorTiles = new int[_chunkCells];
         }
-
 
         // sort order:
         //   floor tiles ("walls" are plain floor tiles, below a roof tile)
