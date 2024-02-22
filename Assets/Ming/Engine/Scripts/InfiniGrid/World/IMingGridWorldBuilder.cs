@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-
-namespace Ming
+﻿namespace Ming
 {
     public interface IMingGridWorldBuilder
     {
-        MingGridChunk CreateChunk(Vector2Int chunkPosition, int chunkSize);
+        MingGridChunk CreateChunk(long chunkId, int chunkSize);
     }
 }

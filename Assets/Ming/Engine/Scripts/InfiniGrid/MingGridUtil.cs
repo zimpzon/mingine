@@ -4,6 +4,19 @@ namespace Ming
 {
     public static class MingGridUtil
     {
+        public static long GetChunkId(Vector2Int gridPosition)
+        {
+            gridPosition += new Vector2Int(100000, 100000);
+            return ((long)gridPosition.x) << 32 | ((long)gridPosition.y);
+        }
+
+        public static Vector2Int GetChunkGridPosition(long chunkId, int chunkSize)
+        {
+            int x = (int)(chunkId >> 32) - 100000;
+            int y = (int)(chunkId & 0xffffffff) - 100000;
+            return new Vector2Int(x * chunkSize, y * chunkSize);
+        }
+
         public static RectInt GetViewTileRect(Vector2 worldPosition, int viewWidth, int viewHeight)
         {
             var x = Mathf.FloorToInt(worldPosition.x - viewWidth / 2);
@@ -20,29 +33,26 @@ namespace Ming
             return rect;
         }
 
-        public static RectInt GetOverlappingChunks(RectInt cellRect)
+        public static RectInt GetTouchedChunks(RectInt cellRect, int chunkSize)
         {
-            // Calculate the starting chunk indices
-            int x = Mathf.FloorToInt((float)cellRect.x / MingGridWorld.ChunkSize);
-            int y = Mathf.FloorToInt((float)cellRect.y / MingGridWorld.ChunkSize);
+            int x = Mathf.FloorToInt((float)cellRect.x / chunkSize);
+            int y = Mathf.FloorToInt((float)cellRect.y / chunkSize);
 
-            // Calculate the ending chunk indices based on the cellRect's max values
-            int xMax = Mathf.CeilToInt((float)(cellRect.x + cellRect.width) / MingGridWorld.ChunkSize);
-            int yMax = Mathf.CeilToInt((float)(cellRect.y + cellRect.height) / MingGridWorld.ChunkSize);
+            int xMax = Mathf.CeilToInt((float)(cellRect.x + cellRect.width) / chunkSize);
+            int yMax = Mathf.CeilToInt((float)(cellRect.y + cellRect.height) / chunkSize);
 
-            // Compute width and height of the chunk area
             int w = xMax - x;
             int h = yMax - y;
 
             return new RectInt(x, y, w, h);
         }
 
-        public static RectInt CellRectFromChunkRect(RectInt chunkRect)
+        public static RectInt CellRectFromChunkSpaceRect(RectInt chunkSpaceRect, int chunkSize)
         {
-            var cellX = chunkRect.x * MingGridWorld.ChunkSize;
-            var cellY = chunkRect.y * MingGridWorld.ChunkSize;
-            var cellWidth = chunkRect.width * MingGridWorld.ChunkSize;
-            var cellHeight = chunkRect.height * MingGridWorld.ChunkSize;
+            var cellX = chunkSpaceRect.x * chunkSize;
+            var cellY = chunkSpaceRect.y * chunkSize;
+            var cellWidth = chunkSpaceRect.width * chunkSize;
+            var cellHeight = chunkSpaceRect.height * chunkSize;
             return new RectInt(cellX, cellY, cellWidth, cellHeight);
         }
     }

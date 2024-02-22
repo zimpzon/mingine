@@ -2,8 +2,26 @@ using UnityEngine;
 
 namespace Ming
 {
+    // sort order:
+    //   floor tiles ("walls" are plain floor tiles, below a roof tile)
+    //   props
+    //   items
+    //   npc's
+    //   grounded projectiles
+    //   player
+    //   top part of tall props
+    //   roof (only relevant where tile above is not a roof tile
+    //   flying (incl. flying projectiles)
+
+    // rendering:
+    //    use sprite layers because particles (and possibly other things)
+
+    // ChunkSize^2 must be uploaded to the GPU when a single tile changes
+    // Up to 4 chunks may be affected by explosions, etc.
     public class MingGridWorldRenderer : MingBehaviour
     {
+        const int ChunkSize = 32;
+
         public int ViewTileWidth = 30;
         public int ViewTileHeight = 20; 
         public int PreloadPadding = 10;
@@ -25,14 +43,19 @@ namespace Ming
         private void OnDrawGizmos()
         {
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
-            MingGizmoHelper.DrawRectangle(viewTileRect, Color.green, "gridView", Color.white);
+            MingGizmoHelper.DrawRectangle(viewTileRect, MingConst.MingColor1, "gridView", MingConst.MingColorText1);
 
             if (_mingGridWorld == null)
                 return;
 
-            foreach (MingGridChunk chunk in _mingGridWorld.LoadedChunks.Values)
+            foreach (MingGridChunk chunk in _mingGridWorld.ActiveChunks.Values)
             {
-                MingGizmoHelper.DrawRectangle(chunk.GridBounds, Color.cyan, $"{chunk.ChunkId}", Color.white);
+                MingGizmoHelper.DrawRectangle(
+                    chunk.GridBounds,
+                    MingConst.MingColor2,
+                    $"{chunk.GridPosition}",
+                    MingConst.MingColorText1,
+                    nameOffset: Vector2.down * ChunkSize * 0.9f + Vector2.right);
             }
         }
 
@@ -40,7 +63,7 @@ namespace Ming
         {
             _transform = transform;
 
-            _mingGridWorld = new MingGridWorld(new MingGridChunkStore(), new MingGridWorldBuilderDefault());
+            _mingGridWorld = new MingGridWorld(new MingGridChunkStore(), new MingGridWorldBuilderDefault(), ChunkSize);
             _quadRendererFloorLayer = CreateMingQuadMeshRenderer(FloorSortingLayerName, FloorSortingOrder);
             _quadRendererRoofLayer = CreateMingQuadMeshRenderer(RoofSortingLayerName, RoofSortingOrder);
         }
@@ -50,22 +73,33 @@ namespace Ming
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
             _mingGridWorld.EnsureLoaded(MingGridUtil.AddPadding(viewTileRect, PreloadPadding));
 
-            var chunks = _mingGridWorld.LoadedChunks.Values;
-
-            for (int y = viewTileRect.yMin; y < viewTileRect.yMax; y++)
+            for (int y = viewTileRect.yMax - 1; y >= viewTileRect.yMin; y--)
             {
                 for (int x = viewTileRect.xMin; x < viewTileRect.xMax; x++)
                 {
-                    Vector2Int chunkId = new Vector2Int(x / MingGridWorld.ChunkSize, y / MingGridWorld.ChunkSize);
-                    MingGridChunk chunk = _mingGridWorld.LoadedChunks[chunkId];
+                    long chunkId = MingGridUtil.GetChunkId(new Vector2Int(x / ChunkSize, y / ChunkSize));
+                    if (!_mingGridWorld.ActiveChunks.TryGetValue(chunkId, out MingGridChunk chunk))
+                    {
+                        Debug.LogError($"Chunk {chunkId} not loaded ({MingGridUtil.GetChunkGridPosition(chunkId, ChunkSize)})");
+                    }
+
                     int localX = x - chunk.GridPosition.x;
                     int localY = y - chunk.GridPosition.y;
-                    Debug.DrawRay(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.up * 0.25f, Color.magenta, 0.1f);
-                    //int tileId = chunk.FloorTiles[localX + localY * MingGridWorld.ChunkSize];
+                    int idx = localX + localY * ChunkSize;
+                    bool outOfBounds = idx >= _mingGridWorld.ChunkCells;
+                    Color c = outOfBounds ? Color.red : Color.green;
+                    if (outOfBounds)
+                    {
+                        Debug.Log("idx: " + idx);
+                        Debug.Log("lx: " + localX);
+                        Debug.Log("ly: " + localY);
+                    }
+                    Debug.DrawRay(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.up * 0.25f, c, 0.1f);
+                    //int tileId = chunk.FloorTiles[idx];
 
                     //_quadRendererFloorLayer.AddQuad(
                     //    new Vector3(x, y, 0),
-                    //    new Vector2(1, 1),
+                    //    new Vector2(1, 1) * 0.25f,
                     //    0,
                     //    0,
                     //    Color.white,

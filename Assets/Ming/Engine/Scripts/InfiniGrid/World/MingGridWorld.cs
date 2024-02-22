@@ -6,39 +6,42 @@ namespace Ming
 {
     public class MingGridWorld
     {
-        public const int ChunkSize = 16;
-        public const int ChunkCells = ChunkSize * ChunkSize;
+        public int ChunkCells => _chunkSize * _chunkSize;
 
         private readonly IMingGridChunkStore _chunkStore;
         private readonly IMingGridWorldBuilder _worldBuilder;
-        [NonSerialized] public readonly Dictionary<Vector2Int, MingGridChunk> LoadedChunks = new();
+        private int _chunkSize;
 
-        public MingGridWorld(IMingGridChunkStore chunkStore, IMingGridWorldBuilder worldBuilder)
+        [NonSerialized] public readonly Dictionary<long, MingGridChunk> ActiveChunks = new();
+
+        public MingGridWorld(IMingGridChunkStore chunkStore, IMingGridWorldBuilder worldBuilder, int chunkSize)
         {
             _chunkStore = chunkStore;
             _worldBuilder = worldBuilder;
+            _chunkSize = chunkSize;
         }
 
         public void EnsureLoaded(RectInt tileRect)
         {
-            RectInt chunkRect = MingGridUtil.GetOverlappingChunks(tileRect);
+            RectInt chunkSpaceRect = MingGridUtil.GetTouchedChunks(tileRect, _chunkSize);
 
-            foreach (Vector2Int chunkId in chunkRect.allPositionsWithin)
+            foreach(Vector2Int gridPosition in chunkSpaceRect.allPositionsWithin)
             {
-                EnsureLoaded(chunkId);
+                long chunkId = MingGridUtil.GetChunkId(gridPosition);
+                EnsureLoaded(chunkId, _chunkSize);
             }
         }
 
-        public void EnsureLoaded(Vector2Int chunkId)
+        public void EnsureLoaded(long chunkId, int chunkSize)
         {
-            if (!LoadedChunks.ContainsKey(chunkId))
+            if (!ActiveChunks.ContainsKey(chunkId))
             {
-                if (!_chunkStore.TryLoadChunk(chunkId, out MingGridChunk newChunk))
+                if (!_chunkStore.TryGetChunk(chunkId, out MingGridChunk newChunk))
                 {
-                    newChunk = _worldBuilder.CreateChunk(chunkId, ChunkSize);
+                    newChunk = _worldBuilder.CreateChunk(chunkId, chunkSize);
                 }
 
-                LoadedChunks[chunkId] = newChunk;
+                ActiveChunks[chunkId] = newChunk;
             }
         }
     }

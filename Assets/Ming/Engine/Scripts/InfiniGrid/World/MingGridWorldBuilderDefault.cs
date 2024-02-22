@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-
-namespace Ming
+﻿namespace Ming
 {
     public class MingGridWorldBuilderDefault : IMingGridWorldBuilder
     {
-        public MingGridChunk CreateChunk(Vector2Int worldPosition, int chunkSize)
+        public MingGridChunk CreateChunk(long chunkId, int chunkSize)
         {
-            return new MingGridChunk(worldPosition, chunkSize);
+            return new MingGridChunk(chunkId, chunkSize);
         }
     }
 }
