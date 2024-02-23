@@ -71,13 +71,15 @@ namespace Ming
         private void Update()
         {
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
-            _mingGridWorld.EnsureLoaded(MingGridUtil.AddPadding(viewTileRect, PreloadPadding));
+            //_mingGridWorld.EnsureLoaded(MingGridUtil.AddPadding(viewTileRect, PreloadPadding));
 
             for (int y = viewTileRect.yMax - 1; y >= viewTileRect.yMin; y--)
             {
                 for (int x = viewTileRect.xMin; x < viewTileRect.xMax; x++)
                 {
                     long chunkId = MingGridUtil.GetChunkId(new Vector2Int(x / ChunkSize, y / ChunkSize));
+                    _mingGridWorld.EnsureLoaded(chunkId, ChunkSize);
+
                     if (!_mingGridWorld.ActiveChunks.TryGetValue(chunkId, out MingGridChunk chunk))
                     {
                         Debug.LogError($"Chunk {chunkId} not loaded ({MingGridUtil.GetChunkGridPosition(chunkId, ChunkSize)})");
