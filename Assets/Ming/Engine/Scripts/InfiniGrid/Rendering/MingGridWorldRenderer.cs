@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ming
@@ -21,7 +20,7 @@ namespace Ming
     // Up to 4 chunks may be affected by explosions, etc.
     public class MingGridWorldRenderer : MingBehaviour
     {
-        const int ChunkSize = 5;
+        const int ChunkSize = 32;
 
         public int ViewTileWidth = 30;
         public int ViewTileHeight = 20; 
@@ -29,7 +28,7 @@ namespace Ming
 
         public string FloorSortingLayerName = "InfiniGridFloor";
         public int FloorSortingOrder = 0;
-        public Sprite FloorSprite;
+        public MingGridTileRecipeCollection TileRecipeCollection;
         public Material FloorMaterial;
         
         public string RoofSortingLayerName = "InfiniGridRoof";
@@ -56,12 +55,7 @@ namespace Ming
 
             foreach (MingGridChunk chunk in _mingGridWorld.ActiveChunks.Values)
             {
-                MingGizmoHelper.DrawRectangle(
-                    chunk.GridBounds,
-                    MingConst.MingColor2,
-                    "+",
-                    MingConst.MingColorText1,
-                    nameOffset: Vector2.down * ChunkSize * 0.95f);
+                MingGizmoHelper.DrawRectangle(chunk.GridBounds, Color.grey);
             }
         }
 
@@ -72,6 +66,8 @@ namespace Ming
             _mingGridWorld = new MingGridWorld(new MingGridChunkStore(), new MingGridWorldBuilderDefault(), ChunkSize);
             _quadRendererFloorLayer = CreateMingQuadMeshRenderer(FloorSortingLayerName, FloorSortingOrder);
             _quadRendererRoofLayer = CreateMingQuadMeshRenderer(RoofSortingLayerName, RoofSortingOrder);
+
+            TileRecipeCollection.Init();
         }
 
         private void Update()
@@ -84,7 +80,6 @@ namespace Ming
                 for (int x = viewTileRect.xMin; x < viewTileRect.xMax; x++)
                 {
                     ulong chunkId = MingGridUtil.GetChunkId(x, y, ChunkSize);
-                    //_mingGridWorld.EnsureLoaded(chunkId);
 
                     Vector2Int chunkBottomLeft = MingGridUtil.GetChunkGridBottomLeftPosition(chunkId, ChunkSize);
                     if (!_mingGridWorld.ActiveChunks.TryGetValue(chunkId, out MingGridChunk chunk))
@@ -92,18 +87,24 @@ namespace Ming
                         Debug.LogError($"Chunk {chunkId} not loaded ({chunkBottomLeft})");
                     }
 
-                    Debug.DrawRay(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.up * 0.25f, Color.grey);
-                    //int tileId = chunk.FloorTiles[idx];
+                    int localX = x - chunkBottomLeft.x;
+                    int localY = y - chunkBottomLeft.y;
 
-                    //_quadRendererFloorLayer.AddQuad(
-                    //    new Vector3(x, y, 0),
-                    //    new Vector2(1, 1) * 0.25f,
-                    //    0,
-                    //    0,
-                    //    Color.white,
-                    //    FloorSprite,
-                    //    FloorMaterial,
-                    //    gameObject.layer);
+                    int tileId = chunk.FloorTiles[localY * ChunkSize + localX];
+                    if (tileId > 0)
+                    {
+                        MingGridTileRecipe tileRecipeCollection = TileRecipeCollection.GetRecipe(tileId);
+
+                        _quadRendererFloorLayer.AddQuad(
+                            new Vector3(x, y, 0),
+                            new Vector2(1, 1),
+                            0,
+                            0,
+                            Color.white,
+                            tileRecipeCollection.Floor,
+                            FloorMaterial,
+                            gameObject.layer);
+                    }
                 }
             }
         }

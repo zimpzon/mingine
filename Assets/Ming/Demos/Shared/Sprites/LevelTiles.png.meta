@@ -110,69 +110,6 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WallBottom
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19a9b8b35d7bbfa4c965e14d823f9260
-      internalID: -77190580
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTop1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 64
-        width: 16
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 546f35e512649ba428ccf10985c4445c
-      internalID: 1640489186
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTop2
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 64
-        width: 16
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3ee2e1fb787404a48a0abaeb784b21db
-      internalID: 671297935
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: FloorDefault
       rect:
         serializedVersion: 2
@@ -299,7 +236,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallFullTopDefault
+      name: RoofDefault
       rect:
         serializedVersion: 2
         x: 16
@@ -315,6 +252,48 @@ TextureImporter:
       bones: []
       spriteID: e378433a4bc31b84d81dd9f7931d9b76
       internalID: 641184514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d69a11c2342ca64aa68f4a4f5d265bc
+      internalID: 1559377921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FloorWall
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18fcaf232463f934baa0d92b83689093
+      internalID: 932988208
       vertices: []
       indices: 
       edges: []
@@ -336,8 +315,10 @@ TextureImporter:
       FloorVariant3: -2002372454
       FloorVariant4: -293235135
       FloorVariant5: -54958010
+      FloorWall: 932988208
+      LevelTiles_0: 1559377921
+      RoofDefault: 641184514
       WallBottom: -77190580
-      WallFullTopDefault: 641184514
       WallTop1: 1640489186
       WallTop2: 671297935
       tiles_1: 1602902372

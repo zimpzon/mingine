@@ -1,68 +1,33 @@
-using UnityEngine;
-using UnityEditor;
+//using UnityEngine;
+//using UnityEditor;
+//using Ming;
 
-// This attribute links your custom drawer to the MingGridTileSprites class
-[CustomPropertyDrawer(typeof(Ming.MingGridTileSprites))]
-public class MingGridTileSpritesDrawer : PropertyDrawer
-{
-    // This method overrides the default rendering for the TileSprites property
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        Debug.Log("CUSTOM");
-        // Start of the property
-        EditorGUI.BeginProperty(position, label, property);
+//[CustomPropertyDrawer(typeof(MingGridTileRecipe))]
+//public class MingGridTileRecipeDrawer : PropertyDrawer
+//{
+//    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+//    {
+//        EditorGUI.BeginProperty(position, label, property);
 
-        // Draw the label
-        position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+//        // Start the indentation.
+//        position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
-        // Get the TileSprites array property
-        SerializedProperty tileSprites = property.FindPropertyRelative("TileSprites");
+//        var indent = EditorGUI.indentLevel;
+//        EditorGUI.indentLevel = 0;
 
-        // Set the indentation level for better layout
-        int indent = EditorGUI.indentLevel;
-        EditorGUI.indentLevel = 0;
+//        // Calculate rects
+//        var tiledIdRect = new Rect(position.x, position.y, 30, position.height);
+//        var defaultSpriteRect = new Rect(position.x + 35, position.y, position.width - 70, position.height);
+//        var southOfWallSpriteRect = new Rect(position.x + position.width - 30, position.y, 30, position.height);
 
-        // Check if the array is not null
-        if (tileSprites != null && tileSprites.isArray)
-        {
-            // Calculate the height for each element
-            float singleLineHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-            int arraySize = tileSprites.arraySize;
+//        // Draw fields - pass GUIContent.none to each so they don't draw labels
+//        EditorGUI.PropertyField(tiledIdRect, property.FindPropertyRelative("TiledId"), GUIContent.none);
+//        EditorGUI.PropertyField(defaultSpriteRect, property.FindPropertyRelative("DefaultSprite"), GUIContent.none);
+//        EditorGUI.PropertyField(southOfWallSpriteRect, property.FindPropertyRelative("SouthOfWallSprite"), GUIContent.none);
 
-            // Iterate through the array elements
-            for (int i = 0; i < arraySize; i++)
-            {
-                // Calculate the position for each sprite
-                Rect spriteRect = new Rect(position.x, position.y + i * singleLineHeight, position.width, EditorGUIUtility.singleLineHeight);
+//        // Set indent back to what it was
+//        EditorGUI.indentLevel = indent;
 
-                // Get the current array element
-                SerializedProperty spriteProperty = tileSprites.GetArrayElementAtIndex(i);
-
-                // Draw the sprite field with the index label
-                EditorGUI.ObjectField(spriteRect, spriteProperty, new GUIContent($"Sprite {i}"));
-            }
-
-            // Adjust the property height according to the number of sprites
-            property.serializedObject.ApplyModifiedProperties(); // Apply changes
-        }
-
-        // Reset the indentation level
-        EditorGUI.indentLevel = indent;
-
-        // End of the property
-        EditorGUI.EndProperty();
-    }
-
-    // This method returns the height needed for the property
-    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-    {
-        // Get the TileSprites array property
-        SerializedProperty tileSprites = property.FindPropertyRelative("TileSprites");
-        if (tileSprites != null && tileSprites.isArray)
-        {
-            // Calculate total height (number of elements * single line height)
-            return (tileSprites.arraySize * (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing));
-        }
-        return EditorGUIUtility.singleLineHeight; // Default height
-    }
-}
+//        EditorGUI.EndProperty();
+//    }
+//}
