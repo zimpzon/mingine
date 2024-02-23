@@ -2,7 +2,7 @@
 {
     public class MingGridWorldBuilderDefault : IMingGridWorldBuilder
     {
-        public MingGridChunk CreateChunk(long chunkId, int chunkSize)
+        public MingGridChunk CreateChunk(ulong chunkId, int chunkSize)
         {
             return new MingGridChunk(chunkId, chunkSize);
         }

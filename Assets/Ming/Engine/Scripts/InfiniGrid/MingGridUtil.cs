@@ -4,16 +4,23 @@ namespace Ming
 {
     public static class MingGridUtil
     {
-        public static long GetChunkId(Vector2Int gridPosition)
+        public static int ToChunkSpace(int x, int chunkSize)
+            => Mathf.FloorToInt(x / (float)chunkSize);
+    
+        public static ulong GetChunkId(Vector2Int gridPosition, int chunkSize)
+            => GetChunkId(gridPosition.x, gridPosition.y, chunkSize);
+
+        public static ulong GetChunkId(int x, int y, int chunkSize)
         {
-            gridPosition += new Vector2Int(100000, 100000);
-            return ((long)gridPosition.x) << 32 | ((long)gridPosition.y);
+            int chunkX = ToChunkSpace(x, chunkSize);
+            int chunkY = ToChunkSpace(y, chunkSize);
+            return ((ulong)chunkX << 32) + (uint)chunkY;
         }
 
-        public static Vector2Int GetChunkGridPosition(long chunkId, int chunkSize)
+        public static Vector2Int GetChunkGridBottomLeftPosition(ulong chunkId, int chunkSize)
         {
-            int x = (int)(chunkId >> 32) - 100000;
-            int y = (int)(chunkId & 0xffffffff) - 100000;
+            int x = (int)(chunkId >> 32);
+            int y = (int)chunkId;
             return new Vector2Int(x * chunkSize, y * chunkSize);
         }
 
@@ -33,17 +40,12 @@ namespace Ming
             return rect;
         }
 
-        public static RectInt GetTouchedChunks(RectInt cellRect, int chunkSize)
+        public static RectInt GetOverlappedChunks(RectInt cellRect, int chunkSize)
         {
-            int x = Mathf.FloorToInt((float)cellRect.x / chunkSize);
-            int y = Mathf.FloorToInt((float)cellRect.y / chunkSize);
-
-            int xMax = Mathf.CeilToInt((float)(cellRect.x + cellRect.width) / chunkSize);
-            int yMax = Mathf.CeilToInt((float)(cellRect.y + cellRect.height) / chunkSize);
-
-            int w = xMax - x;
-            int h = yMax - y;
-
+            int x = ToChunkSpace(cellRect.xMin, chunkSize);
+            int y = ToChunkSpace(cellRect.yMin, chunkSize);
+            int w = ToChunkSpace(cellRect.xMax - 1, chunkSize) - x + 1;
+            int h = ToChunkSpace(cellRect.yMax - 1, chunkSize) - y + 1;
             return new RectInt(x, y, w, h);
         }
 

@@ -2,7 +2,7 @@
 {
     public interface IMingGridChunkStore
     {
-        bool TryGetChunk(long chunkId, out MingGridChunk loadedChunk);
-        void SaveChunk(MingGridChunk chunk);
+        bool TryGetChunk(ulong chunkId, out MingGridChunk loadedChunk);
+        void ReturnChunk(MingGridChunk chunk);
     }
 }

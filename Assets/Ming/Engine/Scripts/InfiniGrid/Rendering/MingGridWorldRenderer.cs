@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ming
@@ -20,7 +21,7 @@ namespace Ming
     // Up to 4 chunks may be affected by explosions, etc.
     public class MingGridWorldRenderer : MingBehaviour
     {
-        const int ChunkSize = 32;
+        const int ChunkSize = 5;
 
         public int ViewTileWidth = 30;
         public int ViewTileHeight = 20; 
@@ -43,7 +44,12 @@ namespace Ming
         private void OnDrawGizmos()
         {
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
+            RectInt paddedViewTileRect = MingGridUtil.AddPadding(viewTileRect, PreloadPadding);
+            MingGizmoHelper.DrawRectangle(paddedViewTileRect, MingConst.MingColor2);
             MingGizmoHelper.DrawRectangle(viewTileRect, MingConst.MingColor1, "gridView", MingConst.MingColorText1);
+
+            RectInt chunkSpaceRect = MingGridUtil.GetOverlappedChunks(paddedViewTileRect, ChunkSize);
+            MingGizmoHelper.DrawRectangle(MingGridUtil.CellRectFromChunkSpaceRect(chunkSpaceRect, ChunkSize), Color.cyan);
 
             if (_mingGridWorld == null)
                 return;
@@ -53,9 +59,9 @@ namespace Ming
                 MingGizmoHelper.DrawRectangle(
                     chunk.GridBounds,
                     MingConst.MingColor2,
-                    $"{chunk.GridPosition}",
+                    "+",
                     MingConst.MingColorText1,
-                    nameOffset: Vector2.down * ChunkSize * 0.9f + Vector2.right);
+                    nameOffset: Vector2.down * ChunkSize * 0.95f);
             }
         }
 
@@ -71,32 +77,22 @@ namespace Ming
         private void Update()
         {
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
-            //_mingGridWorld.EnsureLoaded(MingGridUtil.AddPadding(viewTileRect, PreloadPadding));
+            _mingGridWorld.EnsureLoaded(MingGridUtil.AddPadding(viewTileRect, PreloadPadding));
 
             for (int y = viewTileRect.yMax - 1; y >= viewTileRect.yMin; y--)
             {
                 for (int x = viewTileRect.xMin; x < viewTileRect.xMax; x++)
                 {
-                    long chunkId = MingGridUtil.GetChunkId(new Vector2Int(x / ChunkSize, y / ChunkSize));
-                    _mingGridWorld.EnsureLoaded(chunkId, ChunkSize);
+                    ulong chunkId = MingGridUtil.GetChunkId(x, y, ChunkSize);
+                    //_mingGridWorld.EnsureLoaded(chunkId);
 
+                    Vector2Int chunkBottomLeft = MingGridUtil.GetChunkGridBottomLeftPosition(chunkId, ChunkSize);
                     if (!_mingGridWorld.ActiveChunks.TryGetValue(chunkId, out MingGridChunk chunk))
-                    {
-                        Debug.LogError($"Chunk {chunkId} not loaded ({MingGridUtil.GetChunkGridPosition(chunkId, ChunkSize)})");
+                    {   
+                        Debug.LogError($"Chunk {chunkId} not loaded ({chunkBottomLeft})");
                     }
 
-                    int localX = x - chunk.GridPosition.x;
-                    int localY = y - chunk.GridPosition.y;
-                    int idx = localX + localY * ChunkSize;
-                    bool outOfBounds = idx >= _mingGridWorld.ChunkCells;
-                    Color c = outOfBounds ? Color.red : Color.green;
-                    if (outOfBounds)
-                    {
-                        Debug.Log("idx: " + idx);
-                        Debug.Log("lx: " + localX);
-                        Debug.Log("ly: " + localY);
-                    }
-                    Debug.DrawRay(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.up * 0.25f, c, 0.1f);
+                    Debug.DrawRay(new Vector3(x + 0.5f, y + 0.5f, 0), Vector3.up * 0.25f, Color.grey);
                     //int tileId = chunk.FloorTiles[idx];
 
                     //_quadRendererFloorLayer.AddQuad(

@@ -10,9 +10,9 @@ namespace Ming
 
         private readonly IMingGridChunkStore _chunkStore;
         private readonly IMingGridWorldBuilder _worldBuilder;
-        private int _chunkSize;
+        private readonly int _chunkSize;
 
-        [NonSerialized] public readonly Dictionary<long, MingGridChunk> ActiveChunks = new();
+        [NonSerialized] public readonly Dictionary<ulong, MingGridChunk> ActiveChunks = new();
 
         public MingGridWorld(IMingGridChunkStore chunkStore, IMingGridWorldBuilder worldBuilder, int chunkSize)
         {
@@ -21,24 +21,28 @@ namespace Ming
             _chunkSize = chunkSize;
         }
 
-        public void EnsureLoaded(RectInt tileRect)
+        public void EnsureLoaded(RectInt gridRect)
         {
-            RectInt chunkSpaceRect = MingGridUtil.GetTouchedChunks(tileRect, _chunkSize);
+            RectInt chunkSpaceRect = MingGridUtil.GetOverlappedChunks(gridRect, _chunkSize);
 
-            foreach(Vector2Int gridPosition in chunkSpaceRect.allPositionsWithin)
+            for (int y = chunkSpaceRect.yMax - 1; y >= chunkSpaceRect.yMin; y--)
             {
-                long chunkId = MingGridUtil.GetChunkId(gridPosition);
-                EnsureLoaded(chunkId, _chunkSize);
+                for (int x = chunkSpaceRect.xMin; x < chunkSpaceRect.xMax; x++)
+                {
+                    Vector2Int chunkBottomLeft = new(x * _chunkSize, y * _chunkSize);
+                    ulong chunkId = MingGridUtil.GetChunkId(chunkBottomLeft, _chunkSize);
+                    EnsureLoaded(chunkId);
+                }
             }
         }
 
-        public void EnsureLoaded(long chunkId, int chunkSize)
+        public void EnsureLoaded(ulong chunkId)
         {
             if (!ActiveChunks.ContainsKey(chunkId))
             {
                 if (!_chunkStore.TryGetChunk(chunkId, out MingGridChunk newChunk))
                 {
-                    newChunk = _worldBuilder.CreateChunk(chunkId, chunkSize);
+                    newChunk = _worldBuilder.CreateChunk(chunkId, _chunkSize);
                 }
 
                 ActiveChunks[chunkId] = newChunk;

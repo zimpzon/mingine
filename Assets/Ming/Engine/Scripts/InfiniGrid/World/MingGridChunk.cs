@@ -14,7 +14,7 @@ namespace Ming
 
     public class MingGridChunk
     {
-        public long ChunkId;
+        public ulong ChunkId;
         public Vector2Int GridPosition;
         public RectInt GridBounds;
 
@@ -22,10 +22,10 @@ namespace Ming
 
         private int _chunkCells;
 
-        public MingGridChunk(long chunkId, int chunkSize)
+        public MingGridChunk(ulong chunkId, int chunkSize)
         {
             ChunkId = chunkId;
-            GridPosition = MingGridUtil.GetChunkGridPosition(chunkId, chunkSize);
+            GridPosition = MingGridUtil.GetChunkGridBottomLeftPosition(chunkId, chunkSize);
             GridBounds = new RectInt(GridPosition.x, GridPosition.y, chunkSize, chunkSize);
 
             _chunkCells = chunkSize * chunkSize;

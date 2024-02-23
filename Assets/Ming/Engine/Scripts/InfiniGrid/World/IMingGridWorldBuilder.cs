@@ -2,6 +2,6 @@
 {
     public interface IMingGridWorldBuilder
     {
-        MingGridChunk CreateChunk(long chunkId, int chunkSize);
+        MingGridChunk CreateChunk(ulong chunkId, int chunkSize);
     }
 }
