@@ -1,52 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Ming
 {
     public class MingGridWorld
     {
-        public int ChunkCells => _chunkSize * _chunkSize;
+        public int W;
+        public int H;
+        public RectInt WorldRect;
 
-        private readonly IMingGridChunkStore _chunkStore;
-        private readonly IMingGridWorldBuilder _worldBuilder;
-        private readonly int _chunkSize;
+        public uint[] GridData;
 
-        [NonSerialized] public readonly Dictionary<ulong, MingGridChunk> ActiveChunks = new();
-
-        public MingGridWorld(IMingGridChunkStore chunkStore, IMingGridWorldBuilder worldBuilder, int chunkSize)
+        private void AddWalls()
         {
-            _chunkStore = chunkStore;
-            _worldBuilder = worldBuilder;
-            _chunkSize = chunkSize;
-        }
-
-        public void EnsureLoaded(RectInt gridRect)
-        {
-            RectInt chunkSpaceRect = MingGridUtil.GetOverlappedChunks(gridRect, _chunkSize);
-
-            for (int y = chunkSpaceRect.yMax - 1; y >= chunkSpaceRect.yMin; y--)
+            for (int y = 1; y < H - 1; y++)
             {
-                for (int x = chunkSpaceRect.xMin; x < chunkSpaceRect.xMax; x++)
+                for (int x = 1; x < W - 1; x++)
                 {
-                    Vector2Int chunkBottomLeft = new(x * _chunkSize, y * _chunkSize);
-                    ulong chunkId = MingGridUtil.GetChunkId(chunkBottomLeft, _chunkSize);
-                    EnsureLoaded(chunkId);
+                    int idx = y * W + x;
+                    int idxAbove = (y + 1) * W + x;
+
+                    bool isWallsocket = GridData[idx] == 1 && GridData[idxAbove] == 0;
+
+                    if (isWallsocket)
+                    {
+                        GridData[idx] = 2U;
+                    }
                 }
             }
         }
 
-        public void EnsureLoaded(ulong chunkId)
+        public MingGridWorld(int w, int h)
         {
-            if (!ActiveChunks.ContainsKey(chunkId))
-            {
-                if (!_chunkStore.TryGetChunk(chunkId, out MingGridChunk newChunk))
-                {
-                    newChunk = _worldBuilder.CreateChunk(chunkId, _chunkSize);
-                }
+            W = w;
+            H = h;
+            WorldRect = new RectInt(0, 0, w, h);
+            GridData = new uint[w * h];
 
-                ActiveChunks[chunkId] = newChunk;
+            for (int y = 1; y < h - 1; y++)
+            {
+                for (int x = 1; x < w - 1; x++)
+                {
+                    int idx = y * w + x;
+                    GridData[idx] = Random.value < 0.05f ? 0U : 1U;
+                }
             }
+
+            AddWalls();
         }
     }
 }

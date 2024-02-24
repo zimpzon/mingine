@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: tileRecipeCollection
   m_EditorClassIdentifier: 
   RecipeCollection:
+  - {fileID: 11400000, guid: 59ec33251292bdf4a8b16bfdf0724706, type: 2}
   - {fileID: 11400000, guid: f612626d13cf88742b9bc55adc1f2781, type: 2}
+  - {fileID: 11400000, guid: fda89f093f46b44419cfb4dd47dc82c2, type: 2}

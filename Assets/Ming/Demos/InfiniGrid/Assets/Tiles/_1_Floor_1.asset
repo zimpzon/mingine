@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4e089215a31678419c0beca39584097, type: 3}
-  m_Name: _1_FirstTile
+  m_Name: _1_Floor_1
   m_EditorClassIdentifier: 
   TiledId: 1
-  Floor: {fileID: 2137143680, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
-  Wall: {fileID: -77190580, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
-  HalfRoof: {fileID: 1640489186, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
-  FullRoof: {fileID: 641184514, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  RenderLayer: 0
+  TileSprite: {fileID: 1559377921, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  SecondaryhTileSprite: {fileID: 932988208, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}

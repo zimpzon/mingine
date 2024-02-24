@@ -9,9 +9,9 @@ namespace Ming
     {
         public MingGridTileRecipe[] RecipeCollection;
 
-        private Dictionary<int, MingGridTileRecipe> RecipeLut;
+        private Dictionary<uint, MingGridTileRecipe> RecipeLut;
 
-        public MingGridTileRecipe GetRecipe(int tiledId)
+        public MingGridTileRecipe GetRecipe(uint tiledId)
         {
             if (!RecipeLut.TryGetValue(tiledId, out MingGridTileRecipe recipe))
             {
@@ -24,6 +24,12 @@ namespace Ming
 
         public void Init()
         {
+            int countDistinct = RecipeCollection.Select(r => r.TiledId).Distinct().Count();
+            if (countDistinct != RecipeCollection.Length)
+            {
+                Debug.LogError("Duplicate tile ids found in recipe collection");
+            }
+
             RecipeLut = RecipeCollection.ToDictionary(r => r.TiledId);
         }
     }

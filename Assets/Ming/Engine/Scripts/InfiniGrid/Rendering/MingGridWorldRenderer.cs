@@ -16,15 +16,13 @@ namespace Ming
     // rendering:
     //    use sprite layers because particles (and possibly other things)
 
-    // ChunkSize^2 must be uploaded to the GPU when a single tile changes
-    // Up to 4 chunks may be affected by explosions, etc.
+    /// <summary>
+    /// 
+    /// </summary>
     public class MingGridWorldRenderer : MingBehaviour
     {
-        const int ChunkSize = 32;
-
         public int ViewTileWidth = 30;
         public int ViewTileHeight = 20; 
-        public int PreloadPadding = 10;
 
         public string FloorSortingLayerName = "InfiniGridFloor";
         public int FloorSortingOrder = 0;
@@ -43,68 +41,65 @@ namespace Ming
         private void OnDrawGizmos()
         {
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
-            RectInt paddedViewTileRect = MingGridUtil.AddPadding(viewTileRect, PreloadPadding);
-            MingGizmoHelper.DrawRectangle(paddedViewTileRect, MingConst.MingColor2);
             MingGizmoHelper.DrawRectangle(viewTileRect, MingConst.MingColor1, "gridView", MingConst.MingColorText1);
-
-            RectInt chunkSpaceRect = MingGridUtil.GetOverlappedChunks(paddedViewTileRect, ChunkSize);
-            MingGizmoHelper.DrawRectangle(MingGridUtil.CellRectFromChunkSpaceRect(chunkSpaceRect, ChunkSize), Color.cyan);
-
             if (_mingGridWorld == null)
-                return;
-
-            foreach (MingGridChunk chunk in _mingGridWorld.ActiveChunks.Values)
             {
-                MingGizmoHelper.DrawRectangle(chunk.GridBounds, Color.grey);
+                MingGizmoHelper.DrawRectangle(new RectInt(0, 0, 200, 200), MingConst.MingColor2, "editor-example-world-", MingConst.MingColorText1);
+                return;
             }
+
+            MingGizmoHelper.DrawRectangle(_mingGridWorld.WorldRect, MingConst.MingColor2, "world", MingConst.MingColorText1);
         }
 
         private void Awake()
         {
             _transform = transform;
 
-            _mingGridWorld = new MingGridWorld(new MingGridChunkStore(), new MingGridWorldBuilderDefault(), ChunkSize);
+            _mingGridWorld = new MingGridWorld(w: 100, h: 80);
             _quadRendererFloorLayer = CreateMingQuadMeshRenderer(FloorSortingLayerName, FloorSortingOrder);
             _quadRendererRoofLayer = CreateMingQuadMeshRenderer(RoofSortingLayerName, RoofSortingOrder);
 
             TileRecipeCollection.Init();
         }
 
+        // we are a child go of the camera
+        // from camera position find view tile rect we need to render
+        // adjust our local position within the 1x1 to make it smooth
         private void Update()
         {
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
-            _mingGridWorld.EnsureLoaded(MingGridUtil.AddPadding(viewTileRect, PreloadPadding));
+            Vector2Int gridBottomLeft = new Vector2Int(viewTileRect.x, viewTileRect.y);
 
-            for (int y = viewTileRect.yMax - 1; y >= viewTileRect.yMin; y--)
+            for (int y = 0; y < ViewTileHeight; y++)
             {
-                for (int x = viewTileRect.xMin; x < viewTileRect.xMax; x++)
+                for (int x = 0; x < ViewTileWidth; x++)
                 {
-                    ulong chunkId = MingGridUtil.GetChunkId(x, y, ChunkSize);
-
-                    Vector2Int chunkBottomLeft = MingGridUtil.GetChunkGridBottomLeftPosition(chunkId, ChunkSize);
-                    if (!_mingGridWorld.ActiveChunks.TryGetValue(chunkId, out MingGridChunk chunk))
-                    {   
-                        Debug.LogError($"Chunk {chunkId} not loaded ({chunkBottomLeft})");
-                    }
-
-                    int localX = x - chunkBottomLeft.x;
-                    int localY = y - chunkBottomLeft.y;
-
-                    int tileId = chunk.FloorTiles[localY * ChunkSize + localX];
-                    if (tileId > 0)
+                    int worldX = gridBottomLeft.x + x;
+                    int worldY = gridBottomLeft.y + y;
+                    if (worldX >= _mingGridWorld.W || worldY >= _mingGridWorld.H || worldX < 0 || worldY < 0)
                     {
-                        MingGridTileRecipe tileRecipeCollection = TileRecipeCollection.GetRecipe(tileId);
-
-                        _quadRendererFloorLayer.AddQuad(
-                            new Vector3(x, y, 0),
-                            new Vector2(1, 1),
-                            0,
-                            0,
-                            Color.white,
-                            tileRecipeCollection.Floor,
-                            FloorMaterial,
-                            gameObject.layer);
+                        continue;
                     }
+
+                    int idxWorld = worldY * _mingGridWorld.W + worldX;
+                    int idxWorldAbove = idxWorld - _mingGridWorld.W;
+                    uint cellValue = _mingGridWorld.GridData[idxWorld];
+                    uint tileId = cellValue;
+                    MingGridTileRecipe tileRecipe = TileRecipeCollection.GetRecipe(tileId);
+
+                    MingQuadRenderer quadRenderer = tileRecipe.RenderLayer == MingTileRenderLayer.Floor ?
+                        _quadRendererFloorLayer :
+                        _quadRendererRoofLayer;
+
+                    quadRenderer.AddQuad(
+                        new Vector3(x, y, 0),
+                        new Vector2(1, 1),
+                        0,
+                        0,
+                        Color.white,
+                        tileRecipe.TileSprite,
+                        FloorMaterial,
+                        gameObject.layer);
                 }
             }
         }
@@ -120,7 +115,7 @@ namespace Ming
             var quadRenderer = go.AddComponent<MingQuadRenderer>();
             quadRenderer.SortingLayerName = sortingLayerName;
             quadRenderer.SortingOrder = sortingOrder;
-            go.transform.SetParent(this.transform);
+            go.transform.SetParent(this.transform, worldPositionStays: false);
             return quadRenderer;
         }
     }
