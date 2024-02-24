@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TiledId: 0
   RenderLayer: 1
-  TileSprite: {fileID: 641184514, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
-  SecondaryhTileSprite: {fileID: 0}
+  TileSprite: {fileID: -982788551, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}

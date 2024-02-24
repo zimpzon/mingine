@@ -19,11 +19,11 @@ namespace Ming
                     int idx = y * W + x;
                     int idxAbove = (y + 1) * W + x;
 
-                    bool isWallsocket = GridData[idx] == 1 && GridData[idxAbove] == 0;
+                    bool isWallsocket = GridData[idx] == 2 && GridData[idxAbove] == 1;
 
                     if (isWallsocket)
                     {
-                        GridData[idx] = 2U;
+                        GridData[idx] = 0U;
                     }
                 }
             }
@@ -41,7 +41,7 @@ namespace Ming
                 for (int x = 1; x < w - 1; x++)
                 {
                     int idx = y * w + x;
-                    GridData[idx] = Random.value < 0.05f ? 0U : 1U;
+                    GridData[idx] = Random.value < 0.05f ? 2U : 1U;
                 }
             }
 
