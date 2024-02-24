@@ -3,6 +3,6 @@
     public enum MingTileRenderLayer
     {
         Floor,
-        Roof,
+        Wall,
     }
 }

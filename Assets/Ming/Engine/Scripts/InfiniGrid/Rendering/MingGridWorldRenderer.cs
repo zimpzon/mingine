@@ -26,14 +26,16 @@ namespace Ming
 
         public string FloorSortingLayerName = "InfiniGridFloor";
         public int FloorSortingOrder = 0;
-        public MingGridTileRecipeCollection TileRecipeCollection;
-        public Material FloorMaterial;
-        
         public string RoofSortingLayerName = "InfiniGridRoof";
         public int RoofSortingOrder = 0;
 
+        public MingGridTileRecipeCollection TileRecipeCollection;
+
+        public Material FloorMaterial;
+        public Material WallMaterial;
+
         private MingQuadRenderer _quadRendererFloorLayer;
-        private MingQuadRenderer _quadRendererRoofLayer;
+        private MingQuadRenderer _quadRendererWallLayer;
 
         private MingGridWorld _mingGridWorld;
         private Transform _transform;
@@ -57,7 +59,7 @@ namespace Ming
 
             _mingGridWorld = new MingGridWorld(w: 100, h: 80);
             _quadRendererFloorLayer = CreateMingQuadMeshRenderer(FloorSortingLayerName, FloorSortingOrder);
-            _quadRendererRoofLayer = CreateMingQuadMeshRenderer(RoofSortingLayerName, RoofSortingOrder);
+            _quadRendererWallLayer = CreateMingQuadMeshRenderer(RoofSortingLayerName, RoofSortingOrder);
 
             TileRecipeCollection.Init();
         }
@@ -82,14 +84,13 @@ namespace Ming
                     }
 
                     int idxWorld = worldY * _mingGridWorld.W + worldX;
-                    int idxWorldAbove = idxWorld - _mingGridWorld.W;
                     uint cellValue = _mingGridWorld.GridData[idxWorld];
                     uint tileId = cellValue;
                     MingGridTileRecipe tileRecipe = TileRecipeCollection.GetRecipe(tileId);
 
                     MingQuadRenderer quadRenderer = tileRecipe.RenderLayer == MingTileRenderLayer.Floor ?
                         _quadRendererFloorLayer :
-                        _quadRendererRoofLayer;
+                        _quadRendererWallLayer;
 
                     quadRenderer.AddQuad(
                         new Vector3(x, y, 0),
@@ -98,7 +99,7 @@ namespace Ming
                         0,
                         Color.white,
                         tileRecipe.TileSprite,
-                        FloorMaterial,
+                        tileRecipe.RenderLayer == MingTileRenderLayer.Floor ? FloorMaterial : WallMaterial,
                         gameObject.layer);
                 }
             }

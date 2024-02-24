@@ -123,6 +123,67 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &936197547
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4714339669123292178, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: ProjectileManager
+      value: 
+      objectReference: {fileID: 1698874794}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 44
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 36.795
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.11187743
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670457996871055942, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413987404039607207, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a56f56923b440e74190de53e94368662, type: 3}
 --- !u!1001 &1046666081
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -318,6 +379,74 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!1001 &1322523634
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6021356400714573915, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_Name
+      value: MingProjectiles
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.0457907
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.47061273
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.11187743
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7738810984898508554, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+--- !u!114 &1698874794 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7510696014990911575, guid: 85a46f8d0940f254a9eb6794dec17cab, type: 3}
+  m_PrefabInstance: {fileID: 1322523634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c4cfe5e9388f6b489b51f94d8b24684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1929558214
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,15 +493,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ViewTileWidth: 100
   ViewTileHeight: 80
-  FloorSortingLayerName: InfiniGridFloor
+  FloorSortingLayerName: Background
   FloorSortingOrder: 0
+  RoofSortingLayerName: Foreground
+  RoofSortingOrder: 0
   TileRecipeCollection: {fileID: 11400000, guid: 756a5b6eb7944754fa27f4990c2129a2, type: 2}
   FloorMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  RoofSortingLayerName: InfiniGridRoof
-  RoofSortingOrder: 0
+  WallMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1046666081}
+  - {fileID: 1322523634}
   - {fileID: 1143447141}
+  - {fileID: 936197547}
