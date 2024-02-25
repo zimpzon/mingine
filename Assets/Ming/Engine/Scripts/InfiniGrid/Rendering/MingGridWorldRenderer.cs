@@ -98,10 +98,12 @@ namespace Ming
                         _quadRendererWallLayer;
 
                     // set dist = distance to center of view rect
-                    float dist = Vector2.Distance(new Vector2(worldX, worldY), viewTileRect.center);
+                    float distCenter = Vector2.Distance(new Vector2(worldX, worldY), viewTileRect.center);
+                    float distPlayer = Vector2.Distance(new Vector2(worldX, worldY), PlayerScript.Pos);
 
-                    float v = 1.0f - (dist * 0.1f);
-                    Color c = new Color(v, v, v, 1.0f);
+                    //float v = 1.0f - (distCenter * 0.1f);
+                    float v = 1.0f - (distPlayer * 0.2f);
+                    Color c = new Color(v, v * 0.8f, v * 0.2f, 1.0f);
 
                     if (tileId == WallSocket)
                     {

@@ -5,6 +5,8 @@ public class PlayerScript : MonoBehaviour
 {
     public float MoveSpeed = 10;
 
+    public static Vector2 Pos;
+
     public MingSpriteAnimationFrames_IdleRun PlayerAnimationFrames;
 
     public MingProjectileManager ProjectileManager;
@@ -27,6 +29,8 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+        Pos = transform.position;
+
         Vector2 moveVec = Vector2.zero;
 
         if (_input.IsActive(MingSimpleInputType.Left))

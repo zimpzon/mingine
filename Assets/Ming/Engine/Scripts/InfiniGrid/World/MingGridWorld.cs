@@ -22,7 +22,7 @@ namespace Ming
                 for (int x = 1; x < w - 1; x++)
                 {
                     int idx = y * w + x;
-                    GridData[idx] = Random.value < 0.15f ? 1U : 0U;
+                    GridData[idx] = Random.value < 0.75f ? 1U : 0U;
                 }
             }
         }
