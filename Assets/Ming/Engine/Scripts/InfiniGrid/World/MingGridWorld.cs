@@ -10,25 +10,6 @@ namespace Ming
 
         public uint[] GridData;
 
-        private void AddWalls()
-        {
-            for (int y = 1; y < H - 1; y++)
-            {
-                for (int x = 1; x < W - 1; x++)
-                {
-                    int idx = y * W + x;
-                    int idxAbove = (y + 1) * W + x;
-
-                    bool isWallsocket = GridData[idx] == 2 && GridData[idxAbove] == 1;
-
-                    if (isWallsocket)
-                    {
-                        GridData[idx] = 0U;
-                    }
-                }
-            }
-        }
-
         public MingGridWorld(int w, int h)
         {
             W = w;
@@ -41,11 +22,9 @@ namespace Ming
                 for (int x = 1; x < w - 1; x++)
                 {
                     int idx = y * w + x;
-                    GridData[idx] = Random.value < 0.05f ? 2U : 1U;
+                    GridData[idx] = Random.value < 0.15f ? 1U : 0U;
                 }
             }
-
-            AddWalls();
         }
     }
 }

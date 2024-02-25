@@ -21,6 +21,11 @@ namespace Ming
     /// </summary>
     public class MingGridWorldRenderer : MingBehaviour
     {
+        const int Floor = 0;
+        const int WallSocket = 1;
+        const int RoofFull = 2;
+        const int RoofHalf = 3;
+
         public int ViewTileWidth = 30;
         public int ViewTileHeight = 20; 
 
@@ -92,12 +97,33 @@ namespace Ming
                         _quadRendererFloorLayer :
                         _quadRendererWallLayer;
 
+                    // set dist = distance to center of view rect
+                    float dist = Vector2.Distance(new Vector2(worldX, worldY), viewTileRect.center);
+
+                    float v = 1.0f - (dist * 0.1f);
+                    Color c = new Color(v, v, v, 1.0f);
+
+                    if (tileId == WallSocket)
+                    {
+                        MingGridTileRecipe aa = TileRecipeCollection.GetRecipe(RoofHalf);
+
+                        _quadRendererWallLayer.AddQuad(
+                            new Vector3(x, y + 1, 0),
+                            new Vector2(1, 1),
+                            0,
+                            0,
+                            c,
+                            aa.TileSprite,
+                            WallMaterial,
+                            gameObject.layer);
+                    }
+
                     quadRenderer.AddQuad(
                         new Vector3(x, y, 0),
                         new Vector2(1, 1),
                         0,
                         0,
-                        Color.white,
+                        c,
                         tileRecipe.TileSprite,
                         tileRecipe.RenderLayer == MingTileRenderLayer.Floor ? FloorMaterial : WallMaterial,
                         gameObject.layer);

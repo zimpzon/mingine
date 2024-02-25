@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4e089215a31678419c0beca39584097, type: 3}
-  m_Name: _2_Wallsocket_1
+  m_Name: _2_Roof_Full
   m_EditorClassIdentifier: 
   TiledId: 2
-  RenderLayer: 0
-  TileSprite: {fileID: 932988208, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  RenderLayer: 1
+  TileSprite: {fileID: 92960656, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}

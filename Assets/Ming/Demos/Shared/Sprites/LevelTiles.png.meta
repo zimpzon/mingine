@@ -260,8 +260,8 @@ TextureImporter:
       name: WallSocket
       rect:
         serializedVersion: 2
-        x: 16
-        y: 49
+        x: 0
+        y: 34
         width: 16
         height: 16
       alignment: 0
@@ -278,11 +278,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallBottomHalf
+      name: RoofBottomHalf
       rect:
         serializedVersion: 2
         x: 0
-        y: 49
+        y: 50
         width: 16
         height: 16
       alignment: 0
@@ -294,6 +294,27 @@ TextureImporter:
       bones: []
       spriteID: 79bb51c6928306743a88899ecd0776d3
       internalID: -982788551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RoofFull
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 41
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.73857254, y: 0.5183325}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e209cb38b783d094abe98fce7c70f570
+      internalID: 92960656
       vertices: []
       indices: 
       edges: []
@@ -316,8 +337,9 @@ TextureImporter:
       FloorVariant4: -293235135
       FloorVariant5: -54958010
       LevelTiles_0: 1559377921
+      RoofBottomHalf: -982788551
       RoofDefault: 641184514
-      WallBottomHalf: -982788551
+      RoofFull: 92960656
       WallSocket: 932988208
       WallTop1: 1640489186
       WallTop2: 671297935
