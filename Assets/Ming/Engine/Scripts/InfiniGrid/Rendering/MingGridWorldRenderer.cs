@@ -102,7 +102,8 @@ namespace Ming
                     float distPlayer = Vector2.Distance(new Vector2(worldX, worldY), PlayerScript.Pos);
 
                     //float v = 1.0f - (distCenter * 0.1f);
-                    float v = 1.0f - (distPlayer * 0.2f);
+                    float v = 1.0f - (distPlayer * 0.1f);
+                    v = Mathf.Max(0.05f, v);
                     Color c = new Color(v, v * 0.8f, v * 0.2f, 1.0f);
 
                     if (tileId == WallSocket)

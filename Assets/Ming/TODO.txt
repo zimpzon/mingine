@@ -1,3 +1,5 @@
+https://merchant-shade.itch.io/16x16-mixed-rpg-icons
+
 two globals to "fix":
                 Horde.Sprites.AddQuad(pos, p.LightSize, p.RotationDegrees, p.LightSize.y, p.LightColor, p.LightSprite, p.LightMaterial, _lightLayer);
             }

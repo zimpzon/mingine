@@ -132,6 +132,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4714339669123292178, guid: a56f56923b440e74190de53e94368662, type: 3}
+      propertyPath: MoveSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714339669123292178, guid: a56f56923b440e74190de53e94368662, type: 3}
       propertyPath: ProjectileManager
       value: 
       objectReference: {fileID: 1698874794}

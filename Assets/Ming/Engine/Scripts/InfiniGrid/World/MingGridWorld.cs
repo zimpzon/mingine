@@ -1,29 +1,30 @@
 ﻿using UnityEngine;
 
-namespace Ming
+public class MingGridWorld
 {
-    public class MingGridWorld
+    public int W, H;
+    public RectInt WorldRect;
+    public uint[] GridData;
+
+    public MingGridWorld(int w, int h)
     {
-        public int W;
-        public int H;
-        public RectInt WorldRect;
+        W = w;
+        H = h;
+        WorldRect = new RectInt(0, 0, w, h);
+        GridData = new uint[w * h];
 
-        public uint[] GridData;
+        float scale = 0.1f; // Adjust for more or less detail in your noise
+        float threshold = 0.5f; // Adjust to make the caves larger or smaller
 
-        public MingGridWorld(int w, int h)
+        for (int y = 1; y < h - 1; y++)
         {
-            W = w;
-            H = h;
-            WorldRect = new RectInt(0, 0, w, h);
-            GridData = new uint[w * h];
-
-            for (int y = 1; y < h - 1; y++)
+            for (int x = 1; x < w - 1; x++)
             {
-                for (int x = 1; x < w - 1; x++)
-                {
-                    int idx = y * w + x;
-                    GridData[idx] = Random.value < 0.75f ? 1U : 0U;
-                }
+                int idx = y * w + x;
+                float xCoord = (float)x * scale;
+                float yCoord = (float)y * scale;
+                float sample = Mathf.PerlinNoise(xCoord, yCoord);
+                GridData[idx] = sample > threshold ? 1U : 0U; // Change the threshold to control fill percentage
             }
         }
     }
