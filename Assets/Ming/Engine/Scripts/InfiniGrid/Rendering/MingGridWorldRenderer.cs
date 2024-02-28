@@ -23,8 +23,8 @@ namespace Ming
     {
         const int Floor = 0;
         const int WallSocket = 1;
-        const int RoofFull = 2;
-        const int RoofHalf = 3;
+        const uint RoofFull = 2;
+        const uint RoofHalf = 3;
 
         public float LightSize = 0.2f;
         public Color Color;
@@ -82,9 +82,9 @@ namespace Ming
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
             Vector2Int gridBottomLeft = new Vector2Int(viewTileRect.x, viewTileRect.y);
 
-            for (int y = 0; y < ViewTileHeight; y++)
+            for (int y = 1; y < ViewTileHeight - 1; y++)
             {
-                for (int x = 0; x < ViewTileWidth; x++)
+                for (int x = 1; x < ViewTileWidth - 1; x++)
                 {
                     int worldX = gridBottomLeft.x + x;
                     int worldY = gridBottomLeft.y + y;
@@ -94,8 +94,9 @@ namespace Ming
                     }
 
                     int idxWorld = worldY * _world.W + worldX;
-                    uint cellValue = _world.TileIdLayer[idxWorld];
-                    uint tileId = cellValue;
+                    uint tileId = _world.TileIdLayer[idxWorld]; ;
+                    uint tileIdAbove = _world.TileIdLayer[idxWorld + _world.W];
+
                     MingGridTileRecipe tileRecipe = TileRecipeCollection.GetRecipe(tileId);
 
                     MingQuadRenderer quadRenderer = tileRecipe.RenderLayer == MingTileRenderLayer.Floor ?
@@ -112,7 +113,8 @@ namespace Ming
 
                     if (tileId == WallSocket)
                     {
-                        MingGridTileRecipe aa = TileRecipeCollection.GetRecipe(RoofHalf);
+                        uint roofTileId = tileIdAbove == WallSocket ? RoofFull : RoofHalf;
+                        MingGridTileRecipe aa = TileRecipeCollection.GetRecipe(roofTileId);
 
                         _quadRendererWallLayer.AddQuad(
                             new Vector3(x, y + 1, 0),
