@@ -6,6 +6,7 @@ public class PlayerScript : MonoBehaviour
     public float MoveSpeed = 10;
 
     public static Vector2 Pos;
+    public static Color Color;
 
     public MingSpriteAnimationFrames_IdleRun PlayerAnimationFrames;
 
@@ -29,6 +30,8 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+        _playerSpriteRenderer.color = Color;
+
         Pos = transform.position;
 
         Vector2 moveVec = Vector2.zero;

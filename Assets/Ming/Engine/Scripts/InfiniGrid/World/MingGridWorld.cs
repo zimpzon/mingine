@@ -1,31 +1,47 @@
-﻿using UnityEngine;
+﻿using Ming;
+using UnityEngine;
 
 public class MingGridWorld
 {
     public int W, H;
     public RectInt WorldRect;
-    public uint[] GridData;
+    public ushort[] TileIdLayer;
+    public ushort[] PropsIdLayer;
+    public MingGridCollision Collision;
+    public MingGridFlow FlowFieldHome;
+    public MingGridFlow FlowFieldResources;
 
-    public MingGridWorld(int w, int h)
+    private readonly MingGridTileRecipeCollection _tileRecipes;
+
+    public MingGridWorld(int w, int h, MingGridTileRecipeCollection tileRecipes)
+    {
+        _tileRecipes = tileRecipes;
+
+        W = w;
+        H = h;
+        SetSize(w, h);
+
+        MingBuilderPerlinNoise.BuildCaves(TileIdLayer, W, H, valueWalkable: 0, valueSolid: 1);
+        Collision.UpdateFromTiles(TileIdLayer, _tileRecipes);
+    }
+
+    public void SetSize(int w, int h)
     {
         W = w;
         H = h;
         WorldRect = new RectInt(0, 0, w, h);
-        GridData = new uint[w * h];
 
-        float scale = 0.1f; // Adjust for more or less detail in your noise
-        float threshold = 0.5f; // Adjust to make the caves larger or smaller
+        TileIdLayer = new ushort[w * h];
+        PropsIdLayer = new ushort[w * h];
 
-        for (int y = 1; y < h - 1; y++)
-        {
-            for (int x = 1; x < w - 1; x++)
-            {
-                int idx = y * w + x;
-                float xCoord = (float)x * scale;
-                float yCoord = (float)y * scale;
-                float sample = Mathf.PerlinNoise(xCoord, yCoord);
-                GridData[idx] = sample > threshold ? 1U : 0U; // Change the threshold to control fill percentage
-            }
-        }
+        Collision = new MingGridCollision(w, h);
+
+        FlowFieldHome = new MingGridFlow(w, h);
+        FlowFieldResources = new MingGridFlow(w, h);
+    }
+
+    public void DrawGizmos()
+    {
+        Collision.DrawGizmos(Vector2.zero);
     }
 }

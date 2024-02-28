@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 
@@ -9,11 +9,17 @@ namespace Ming
     {
         public MingGridTileRecipe[] RecipeCollection;
 
-        private Dictionary<uint, MingGridTileRecipe> RecipeLut;
+        private MingGridTileRecipe[] _idxLookup;
 
         public MingGridTileRecipe GetRecipe(uint tiledId)
         {
-            if (!RecipeLut.TryGetValue(tiledId, out MingGridTileRecipe recipe))
+            if (_idxLookup == null)
+            {
+                throw new ArgumentException($"{nameof(Init)} has not been called");
+            }
+
+            MingGridTileRecipe recipe = _idxLookup[tiledId];
+            if (recipe == null)
             {
                 Debug.LogError($"No recipe found for tile id {tiledId}");
                 return null;
@@ -30,7 +36,12 @@ namespace Ming
                 Debug.LogError("Duplicate tile ids found in recipe collection");
             }
 
-            RecipeLut = RecipeCollection.ToDictionary(r => r.TiledId);
+            _idxLookup = new MingGridTileRecipe[RecipeCollection.Max(r => r.TiledId) + 1];
+            for (int i = 0; i < RecipeCollection.Length; ++i)
+            {
+                MingGridTileRecipe recipe = RecipeCollection[i];
+                _idxLookup[recipe.TiledId] = recipe;
+            }
         }
     }
 }

@@ -26,6 +26,8 @@ namespace Ming
         const int RoofFull = 2;
         const int RoofHalf = 3;
 
+        public float LightSize = 0.2f;
+        public Color Color;
         public int ViewTileWidth = 30;
         public int ViewTileHeight = 20; 
 
@@ -42,31 +44,32 @@ namespace Ming
         private MingQuadRenderer _quadRendererFloorLayer;
         private MingQuadRenderer _quadRendererWallLayer;
 
-        private MingGridWorld _mingGridWorld;
+        private MingGridWorld _world;
         private Transform _transform;
 
         private void OnDrawGizmos()
         {
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
-            MingGizmoHelper.DrawRectangle(viewTileRect, MingConst.MingColor1, "gridView", MingConst.MingColorText1);
-            if (_mingGridWorld == null)
+            MingGizmo.DrawRectangle(viewTileRect, MingConst.MingColor1, "gridView", MingConst.MingColorText1);
+            if (_world == null)
             {
-                MingGizmoHelper.DrawRectangle(new RectInt(0, 0, 200, 200), MingConst.MingColor2, "editor-example-world-", MingConst.MingColorText1);
+                MingGizmo.DrawRectangle(new RectInt(0, 0, 200, 200), MingConst.MingColor2, "editor-example-world-", MingConst.MingColorText1);
                 return;
             }
 
-            MingGizmoHelper.DrawRectangle(_mingGridWorld.WorldRect, MingConst.MingColor2, "world", MingConst.MingColorText1);
+            _world.DrawGizmos();
+            MingGizmo.DrawRectangle(_world.WorldRect, MingConst.MingColor2, "world", MingConst.MingColorText1);
         }
 
         private void Awake()
         {
+            TileRecipeCollection.Init();
+
             _transform = transform;
 
-            _mingGridWorld = new MingGridWorld(w: 100, h: 80);
+            _world = new MingGridWorld(w: 100, h: 80, TileRecipeCollection);
             _quadRendererFloorLayer = CreateMingQuadMeshRenderer(FloorSortingLayerName, FloorSortingOrder);
             _quadRendererWallLayer = CreateMingQuadMeshRenderer(RoofSortingLayerName, RoofSortingOrder);
-
-            TileRecipeCollection.Init();
         }
 
         // we are a child go of the camera
@@ -74,6 +77,8 @@ namespace Ming
         // adjust our local position within the 1x1 to make it smooth
         private void Update()
         {
+            PlayerScript.Color = Color;
+
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
             Vector2Int gridBottomLeft = new Vector2Int(viewTileRect.x, viewTileRect.y);
 
@@ -83,13 +88,13 @@ namespace Ming
                 {
                     int worldX = gridBottomLeft.x + x;
                     int worldY = gridBottomLeft.y + y;
-                    if (worldX >= _mingGridWorld.W || worldY >= _mingGridWorld.H || worldX < 0 || worldY < 0)
+                    if (worldX >= _world.W || worldY >= _world.H || worldX < 0 || worldY < 0)
                     {
                         continue;
                     }
 
-                    int idxWorld = worldY * _mingGridWorld.W + worldX;
-                    uint cellValue = _mingGridWorld.GridData[idxWorld];
+                    int idxWorld = worldY * _world.W + worldX;
+                    uint cellValue = _world.TileIdLayer[idxWorld];
                     uint tileId = cellValue;
                     MingGridTileRecipe tileRecipe = TileRecipeCollection.GetRecipe(tileId);
 
@@ -102,9 +107,8 @@ namespace Ming
                     float distPlayer = Vector2.Distance(new Vector2(worldX, worldY), PlayerScript.Pos);
 
                     //float v = 1.0f - (distCenter * 0.1f);
-                    float v = 1.0f - (distPlayer * 0.1f);
-                    v = Mathf.Max(0.05f, v);
-                    Color c = new Color(v, v * 0.8f, v * 0.2f, 1.0f);
+                    float v = 1.0f - (distPlayer * LightSize);
+                    Color c = new Color(Color.r * v, Color.g * v, Color.b * v, 1.0f);
 
                     if (tileId == WallSocket)
                     {

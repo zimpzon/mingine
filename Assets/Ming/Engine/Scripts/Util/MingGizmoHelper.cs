@@ -2,7 +2,7 @@
 
 namespace Ming
 {
-    public static class MingGizmoHelper
+    public static class MingGizmo
     {
         public static void DrawRectangle(RectInt rect, Color color, string name = null, Color? nameColor = null, Vector2? nameOffset = null)
             => DrawRectangle(new Rect(rect.position, rect.size), color, name, nameColor, nameOffset);
@@ -20,7 +20,7 @@ namespace Ming
 #endif
         }
 
-        public static void Text(string text, Vector2 worldPos, Color? colour = null)
+        public static void Text(string text, Vector2 worldPos, Color? color = null)
         {
 #if UNITY_EDITOR
             UnityEditor.Handles.color = Color.white;

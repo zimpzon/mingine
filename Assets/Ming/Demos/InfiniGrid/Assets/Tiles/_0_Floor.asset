@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e089215a31678419c0beca39584097, type: 3}
   m_Name: _0_Floor
   m_EditorClassIdentifier: 
+  Name: Floor
   TiledId: 0
+  TileLevel: 0
+  Walkable: 1
   RenderLayer: 0
   TileSprite: {fileID: 2137143680, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}

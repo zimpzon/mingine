@@ -133,7 +133,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4714339669123292178, guid: a56f56923b440e74190de53e94368662, type: 3}
       propertyPath: MoveSpeed
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4714339669123292178, guid: a56f56923b440e74190de53e94368662, type: 3}
       propertyPath: ProjectileManager
@@ -315,7 +315,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -472,7 +472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1626818778
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -595,6 +595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51acbd625de2cae4282f0c4e3ca57735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LightSize: 0.05
+  Color: {r: 1, g: 1, b: 1, a: 1}
   ViewTileWidth: 100
   ViewTileHeight: 80
   FloorSortingLayerName: Background
