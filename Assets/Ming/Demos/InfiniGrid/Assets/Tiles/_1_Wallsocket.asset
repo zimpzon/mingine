@@ -12,6 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e089215a31678419c0beca39584097, type: 3}
   m_Name: _1_Wallsocket
   m_EditorClassIdentifier: 
+  Name: Wall
   TiledId: 1
-  RenderLayer: 0
+  TileLevel: 0
+  Walkable: 0
   TileSprite: {fileID: 932988208, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  RenderLayer: 0
+  RuleSprites:
+  - {fileID: 1559377921, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: 1761688984, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: -291483057, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: 1947059009, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: 2063712096, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: 1322901314, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: 614863453, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: 426259704, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: 1023672075, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: 1656349494, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: -1550527287, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  - {fileID: -712365034, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  RuleSpritesRenderLayers: 010000000100000001000000010000000100000001000000010000000100000000000000000000000000000000000000

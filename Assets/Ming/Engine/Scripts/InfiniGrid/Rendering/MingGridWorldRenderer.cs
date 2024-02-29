@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Tilemaps;
 
 namespace Ming
 {
@@ -21,10 +23,11 @@ namespace Ming
     /// </summary>
     public class MingGridWorldRenderer : MingBehaviour
     {
-        const int Floor = 0;
-        const int WallSocket = 1;
-        const uint RoofFull = 2;
-        const uint RoofHalf = 3;
+        const int TileIdFloor = 0;
+        const int TileIdWallSocket = 1;
+
+        public float testX = 0;
+        public float testY = 0;
 
         public float LightSize = 0.2f;
         public Color Color;
@@ -57,7 +60,7 @@ namespace Ming
                 return;
             }
 
-            _world.DrawGizmos();
+            //_world.DrawGizmos();
             MingGizmo.DrawRectangle(_world.WorldRect, MingConst.MingColor2, "world", MingConst.MingColorText1);
         }
 
@@ -82,7 +85,7 @@ namespace Ming
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);
             Vector2Int gridBottomLeft = new Vector2Int(viewTileRect.x, viewTileRect.y);
 
-            for (int y = 1; y < ViewTileHeight - 1; y++)
+            for (int y = ViewTileHeight - 2; y >= 1; y--)
             {
                 for (int x = 1; x < ViewTileWidth - 1; x++)
                 {
@@ -103,6 +106,55 @@ namespace Ming
                         _quadRendererFloorLayer :
                         _quadRendererWallLayer;
 
+                    int idx = idxWorld;
+                    // Sprites render with x, y at center, so currently tiles are centered at 0.5, 0.5!
+                    bool L = _world.TileIdLayer[idx - 1] == TileIdWallSocket;
+                    bool C = _world.TileIdLayer[idx] == TileIdWallSocket;
+                    bool R = _world.TileIdLayer[idx + 1] == TileIdWallSocket;
+                    bool BL = _world.TileIdLayer[idx - 1 - _world.W] == TileIdWallSocket;
+                    bool B = _world.TileIdLayer[idx - _world.W] == TileIdWallSocket;
+                    bool BR = _world.TileIdLayer[idx + 1 - _world.W] == TileIdWallSocket;
+                    Vector2 pos = new Vector2(x + testX, y - testY);
+                    if (L)
+                        Debug.DrawRay(pos, Vector2.left * 0.25f, Color.yellow);
+                    if (R)
+                        Debug.DrawRay(pos, Vector2.right * 0.25f, Color.cyan);
+                    if (B)
+                        Debug.DrawRay(pos, Vector2.down * 0.25f, Color.green);
+                    if (C)
+                        Debug.DrawRay(pos, Vector2.up * 0.15f, Color.grey);
+                    if (BL)
+                        Debug.DrawRay(pos, (Vector2.down + Vector2.left).normalized * 0.25f, Color.magenta);
+                    if (BR)
+                        Debug.DrawRay(pos, (Vector2.down + Vector2.right).normalized * 0.25f, Color.red);
+
+                    bool hasOverhang = !C && B;
+                    if (hasOverhang)
+                    {
+                        uint overhangingTileId = _world.TileIdLayer[idxWorld - _world.W];
+                        MingGridTileRecipe overhangingTile = TileRecipeCollection.GetRecipe(overhangingTileId);
+                        if (!BL && BR)
+                        {
+                            AddToWallLayer(x, y, overhangingTile.RuleSprites[0], Color.white);
+                        }
+                        else if (BL && BR)
+                        {
+                            AddToWallLayer(x, y, overhangingTile.RuleSprites[1], Color.white);
+                        }
+                        else if (BL && !BR)
+                        {
+                            AddToWallLayer(x, y, overhangingTile.RuleSprites[2], Color.white);
+                        }
+                        else
+                        {
+                            AddToWallLayer(x, y, overhangingTile.RuleSprites[3], Color.white);
+                        }
+                    }
+                    else
+                    {
+
+                    }
+
                     // set dist = distance to center of view rect
                     float distCenter = Vector2.Distance(new Vector2(worldX, worldY), viewTileRect.center);
                     float distPlayer = Vector2.Distance(new Vector2(worldX, worldY), PlayerScript.Pos);
@@ -111,33 +163,38 @@ namespace Ming
                     float v = 1.0f - (distPlayer * LightSize);
                     Color c = new Color(Color.r * v, Color.g * v, Color.b * v, 1.0f);
 
-                    if (tileId == WallSocket)
+                    if (tileId == TileIdFloor)
                     {
-                        uint roofTileId = tileIdAbove == WallSocket ? RoofFull : RoofHalf;
-                        MingGridTileRecipe aa = TileRecipeCollection.GetRecipe(roofTileId);
-
-                        _quadRendererWallLayer.AddQuad(
-                            new Vector3(x, y + 1, 0),
-                            new Vector2(1, 1),
-                            0,
-                            0,
-                            c,
-                            aa.TileSprite,
-                            WallMaterial,
-                            gameObject.layer);
+                        AddToFloorLayer(x, y, tileRecipe.TileSprite, c);
                     }
-
-                    quadRenderer.AddQuad(
-                        new Vector3(x, y, 0),
-                        new Vector2(1, 1),
-                        0,
-                        0,
-                        c,
-                        tileRecipe.TileSprite,
-                        tileRecipe.RenderLayer == MingTileRenderLayer.Floor ? FloorMaterial : WallMaterial,
-                        gameObject.layer);
                 }
             }
+        }
+
+        private void AddToWallLayer(int x, int y, Sprite sprite, Color color)
+        {
+            _quadRendererWallLayer.AddQuad(
+                center: new Vector3(x, y, 0),
+                size: new Vector2(1, 1),
+                rotationDegrees: 0,
+                zSkew: 0,
+                color,
+                sprite,
+                WallMaterial,
+                gameObject.layer);
+        }
+
+        private void AddToFloorLayer(int x, int y, Sprite sprite, Color color)
+        {
+            _quadRendererFloorLayer.AddQuad(
+                center: new Vector3(x, y, 0),
+                size: new Vector2(1, 1),
+                rotationDegrees: 0,
+                zSkew: 0,
+                color,
+                sprite,
+                FloorMaterial,
+                gameObject.layer);
         }
 
         private MingQuadRenderer CreateMingQuadMeshRenderer(string sortingLayerName, int sortingOrder)

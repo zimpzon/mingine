@@ -9,7 +9,9 @@ namespace Ming
         public uint TiledId;
         public int TileLevel;
         public bool Walkable;
-        public MingTileRenderLayer RenderLayer;
         public Sprite TileSprite;
+        public MingTileRenderLayer RenderLayer;
+        public Sprite[] RuleSprites;
+        public MingTileRenderLayer[] RuleSpritesRenderLayers;
     }
 }

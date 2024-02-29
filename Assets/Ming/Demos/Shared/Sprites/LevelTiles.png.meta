@@ -110,137 +110,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FloorDefault
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 669a5294dd7ab204392bc29c4f6edaf5
-      internalID: 2137143680
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloorVariant1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 22dfd6a06e316a340b253c00dda18483
-      internalID: 1225925553
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloorVariant2
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e76586d46fc03d4408184b2de7a07f30
-      internalID: -1757880850
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloorVariant3
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3d817b2034b46d4438e7e50212c0c0f6
-      internalID: -2002372454
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloorVariant4
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 07818397a5f395c4e8f423ded3825ec8
-      internalID: -293235135
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FloorVariant5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: dc4dd002879f580448922d0534f4ef50
-      internalID: -54958010
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: LevelTiles_0
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
+        x: 2
+        y: 494
         width: 16
         height: 16
       alignment: 0
@@ -257,11 +131,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallSocket
+      name: LevelTiles_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 26
+        x: 20
+        y: 494
         width: 16
         height: 16
       alignment: 0
@@ -271,18 +145,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18fcaf232463f934baa0d92b83689093
-      internalID: 932988208
+      spriteID: 21a59e1d4f21fda43a6091d89f9c87d2
+      internalID: 1761688984
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RoofHalf
+      name: LevelTiles_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 50
+        x: 38
+        y: 494
         width: 16
         height: 16
       alignment: 0
@@ -292,29 +166,218 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 79bb51c6928306743a88899ecd0776d3
-      internalID: -982788551
+      spriteID: 658a8193238b2ab47a066d6f0d97a246
+      internalID: -291483057
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RoofFull
+      name: LevelTiles_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 42
+        x: 56
+        y: 494
         width: 16
         height: 16
-      alignment: 9
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e209cb38b783d094abe98fce7c70f570
-      internalID: 92960656
+      spriteID: 0e9481923e046524f9a34e8a9194b012
+      internalID: 1947059009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_4
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 476
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f41a61ca2acb2544b8514816cfe7f2b
+      internalID: 2063712096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_5
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 476
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 513df3cca0014754d800c73e8eb8e46a
+      internalID: 1322901314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_6
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 476
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26841c2460ece234982ab99fc5a48ebd
+      internalID: 614863453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_7
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 476
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23bd13095575d2d439cc5d1d8b3d21e7
+      internalID: 426259704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_8
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 458
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51530953ac35960429f84ca32ad1f5fe
+      internalID: 1023672075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_9
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 458
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7891593072f5a54bad30cf909d4077e
+      internalID: 1656349494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_10
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 458
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53da247d66d4f4d40aeaf2af6826b367
+      internalID: -1550527287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_11
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 458
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e00f707ed795b6488517b1188f276fb
+      internalID: -712365034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: floor
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 288
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2d1fac2f262c334785effa4d0c85e0a
+      internalID: -1521391464
       vertices: []
       indices: 
       edges: []
@@ -330,22 +393,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FloorDefault: 2137143680
-      FloorVariant1: 1225925553
-      FloorVariant2: -1757880850
-      FloorVariant3: -2002372454
-      FloorVariant4: -293235135
-      FloorVariant5: -54958010
       LevelTiles_0: 1559377921
-      RoofDefault: 641184514
-      RoofFull: 92960656
-      RoofHalf: -982788551
-      WallSocket: 932988208
-      WallTop1: 1640489186
-      WallTop2: 671297935
-      tiles_1: 1602902372
-      tiles_2: -466502743
-      tiles_3: -47556938
+      LevelTiles_1: 1761688984
+      LevelTiles_10: -1550527287
+      LevelTiles_11: -712365034
+      LevelTiles_2: -291483057
+      LevelTiles_3: 1947059009
+      LevelTiles_4: 2063712096
+      LevelTiles_5: 1322901314
+      LevelTiles_6: 614863453
+      LevelTiles_7: 426259704
+      LevelTiles_8: 1023672075
+      LevelTiles_9: 1656349494
+      floor: -1521391464
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,21 @@
 
 
+Random ideas:
+  crafting without the hassle
+    infini-chest: all materials can be auto-dropped here and there is unlimited room.
+    crafting automatically uses infini-chest resources.
+
+  MINING-GUN! Pickaxes are for... pickaxers. Shoot to mine!!
+
+  flow maps leads to ore, minions bring ore to home (another flowmap)
+
+  ORIGINAL: minesweeper, add numbers on top of cells, COULD LEAD TO TREASURE OR DANGER! Actually pretty cool.
+   (oh the pun... MINE...)
+   multiplayer sounds fun
+    - if the engine is any good this should be an "easy" demo
+
+  minions: HIDE! move to home and... something... Return: back to mining.
+
 CORE KEEPER FOR GFX
 
 https://merchant-shade.itch.io/16x16-mixed-rpg-icons

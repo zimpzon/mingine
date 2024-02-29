@@ -16,5 +16,7 @@ MonoBehaviour:
   TiledId: 0
   TileLevel: 0
   Walkable: 1
+  TileSprite: {fileID: -1521391464, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
   RenderLayer: 0
-  TileSprite: {fileID: 2137143680, guid: 34414a9b646232a4ba18d298d67a00c0, type: 3}
+  RuleSprites: []
+  RuleSpritesRenderLayers: 
