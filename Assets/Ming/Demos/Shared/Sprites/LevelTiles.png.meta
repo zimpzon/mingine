@@ -362,7 +362,91 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: floor
+      name: LevelTiles_12
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 440
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1307f6dad8375c4f948085c65899559
+      internalID: 2027462516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_13
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 440
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe2835db5b47cf841bd916f44dcd781b
+      internalID: 592893623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_14
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 440
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb2aa2fb42b6d314aa09517da08dde91
+      internalID: -1795214969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LevelTiles_15
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 440
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3662000fe4c43c4e9a5781a4076b130
+      internalID: 1762570212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Floor
       rect:
         serializedVersion: 2
         x: 64
@@ -376,8 +460,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2d1fac2f262c334785effa4d0c85e0a
-      internalID: -1521391464
+      spriteID: a1dab996a98e0744b86c27277fcb8f4c
+      internalID: -1549686480
       vertices: []
       indices: 
       edges: []
@@ -393,10 +477,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Floor: -1549686480
       LevelTiles_0: 1559377921
       LevelTiles_1: 1761688984
       LevelTiles_10: -1550527287
       LevelTiles_11: -712365034
+      LevelTiles_12: 2027462516
+      LevelTiles_13: 592893623
+      LevelTiles_14: -1795214969
+      LevelTiles_15: 1762570212
       LevelTiles_2: -291483057
       LevelTiles_3: 1947059009
       LevelTiles_4: 2063712096
@@ -405,7 +494,6 @@ TextureImporter:
       LevelTiles_7: 426259704
       LevelTiles_8: 1023672075
       LevelTiles_9: 1656349494
-      floor: -1521391464
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

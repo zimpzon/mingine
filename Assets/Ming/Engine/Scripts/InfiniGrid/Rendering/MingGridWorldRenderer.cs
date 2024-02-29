@@ -98,62 +98,35 @@ namespace Ming
 
                     int idxWorld = worldY * _world.W + worldX;
                     uint tileId = _world.TileIdLayer[idxWorld]; ;
-                    uint tileIdAbove = _world.TileIdLayer[idxWorld + _world.W];
 
                     MingGridTileRecipe tileRecipe = TileRecipeCollection.GetRecipe(tileId);
 
-                    MingQuadRenderer quadRenderer = tileRecipe.RenderLayer == MingTileRenderLayer.Floor ?
-                        _quadRendererFloorLayer :
-                        _quadRendererWallLayer;
-
-                    int idx = idxWorld;
                     // Sprites render with x, y at center, so currently tiles are centered at 0.5, 0.5!
+
+                    // look at surrounding tiles to auto-connect tile edges
+                    int idx = idxWorld;
                     bool L = _world.TileIdLayer[idx - 1] == TileIdWallSocket;
                     bool C = _world.TileIdLayer[idx] == TileIdWallSocket;
                     bool R = _world.TileIdLayer[idx + 1] == TileIdWallSocket;
                     bool BL = _world.TileIdLayer[idx - 1 - _world.W] == TileIdWallSocket;
                     bool B = _world.TileIdLayer[idx - _world.W] == TileIdWallSocket;
                     bool BR = _world.TileIdLayer[idx + 1 - _world.W] == TileIdWallSocket;
-                    Vector2 pos = new Vector2(x + testX, y - testY);
-                    if (L)
-                        Debug.DrawRay(pos, Vector2.left * 0.25f, Color.yellow);
-                    if (R)
-                        Debug.DrawRay(pos, Vector2.right * 0.25f, Color.cyan);
-                    if (B)
-                        Debug.DrawRay(pos, Vector2.down * 0.25f, Color.green);
-                    if (C)
-                        Debug.DrawRay(pos, Vector2.up * 0.15f, Color.grey);
-                    if (BL)
-                        Debug.DrawRay(pos, (Vector2.down + Vector2.left).normalized * 0.25f, Color.magenta);
-                    if (BR)
-                        Debug.DrawRay(pos, (Vector2.down + Vector2.right).normalized * 0.25f, Color.red);
+                    bool OHL = !L && BL; // is left a wall overhang?
+                    bool OHR = !R && BR; // is right a wall overhang?
 
-                    bool hasOverhang = !C && B;
-                    if (hasOverhang)
-                    {
-                        uint overhangingTileId = _world.TileIdLayer[idxWorld - _world.W];
-                        MingGridTileRecipe overhangingTile = TileRecipeCollection.GetRecipe(overhangingTileId);
-                        if (!BL && BR)
-                        {
-                            AddToWallLayer(x, y, overhangingTile.RuleSprites[0], Color.white);
-                        }
-                        else if (BL && BR)
-                        {
-                            AddToWallLayer(x, y, overhangingTile.RuleSprites[1], Color.white);
-                        }
-                        else if (BL && !BR)
-                        {
-                            AddToWallLayer(x, y, overhangingTile.RuleSprites[2], Color.white);
-                        }
-                        else
-                        {
-                            AddToWallLayer(x, y, overhangingTile.RuleSprites[3], Color.white);
-                        }
-                    }
-                    else
-                    {
-
-                    }
+                    //Vector2 pos = new Vector2(x + testX, y - testY);
+                    //if (L)
+                    //    Debug.DrawRay(pos, Vector2.left * 0.25f, Color.yellow);
+                    //if (R)
+                    //    Debug.DrawRay(pos, Vector2.right * 0.25f, Color.cyan);
+                    //if (B)
+                    //    Debug.DrawRay(pos, Vector2.down * 0.25f, Color.green);
+                    //if (C)
+                    //    Debug.DrawRay(pos, Vector2.up * 0.15f, Color.grey);
+                    //if (BL)
+                    //    Debug.DrawRay(pos, (Vector2.down + Vector2.left).normalized * 0.25f, Color.magenta);
+                    //if (BR)
+                    //    Debug.DrawRay(pos, (Vector2.down + Vector2.right).normalized * 0.25f, Color.red);
 
                     // set dist = distance to center of view rect
                     float distCenter = Vector2.Distance(new Vector2(worldX, worldY), viewTileRect.center);
@@ -161,11 +134,88 @@ namespace Ming
 
                     //float v = 1.0f - (distCenter * 0.1f);
                     float v = 1.0f - (distPlayer * LightSize);
-                    Color c = new Color(Color.r * v, Color.g * v, Color.b * v, 1.0f);
+                    Color col = new Color(Color.r * v, Color.g * v, Color.b * v, 1.0f);
+
+                    if (tileId == TileIdWallSocket)
+                    {
+                        bool displayAsSocket = !B;
+                        if (displayAsSocket)
+                        {
+                            if (!L && R)
+                            {
+                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[12], col);
+                            }
+                            else if (L && R)
+                            {
+                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[13], col);
+                            }
+                            else if (L && !R)
+                            {
+                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[14], col);
+                            }
+                            else
+                            {
+                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[15], col);
+                            }
+                        }
+                        else
+                        {
+                            // display as "roof"
+                            if (!L && R)
+                            {
+                                AddToFloorLayer(x, y, OHL ? tileRecipe.RuleSprites[4] : tileRecipe.RuleSprites[8], col);
+                            }
+                            else if (L && R)
+                            {
+                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[9], col);
+                            }
+                            else if (L && !R)
+                            {
+                                AddToFloorLayer(x, y, OHR ? tileRecipe.RuleSprites[6] : tileRecipe.RuleSprites[10], col);
+                            }
+                            else
+                            {
+                                // floor on both sides of this wall tile, check if they have overhangs
+                                if (OHL && OHL)
+                                {
+                                    // both have overhangs
+                                    AddToFloorLayer(x, y, tileRecipe.RuleSprites[7], col);
+                                }
+                                else
+                                {
+                                    // if just one of them are overhangs we actually don't have a matching tile, so just use the one for no overhangs left/right
+                                    AddToFloorLayer(x, y, tileRecipe.RuleSprites[11], col);
+                                }
+                            }
+                        }
+                    }
 
                     if (tileId == TileIdFloor)
                     {
-                        AddToFloorLayer(x, y, tileRecipe.TileSprite, c);
+                        AddToFloorLayer(x, y, tileRecipe.TileSprite, col);
+
+                        bool hasOverhang = !C && B;
+                        if (hasOverhang)
+                        {
+                            uint overhangingTileId = _world.TileIdLayer[idxWorld - _world.W];
+                            MingGridTileRecipe overhangingTile = TileRecipeCollection.GetRecipe(overhangingTileId);
+                            if (!BL && BR)
+                            {
+                                AddToWallLayer(x, y, overhangingTile.RuleSprites[0], col);
+                            }
+                            else if (BL && BR)
+                            {
+                                AddToWallLayer(x, y, overhangingTile.RuleSprites[1], col);
+                            }
+                            else if (BL && !BR)
+                            {
+                                AddToWallLayer(x, y, overhangingTile.RuleSprites[2], col);
+                            }
+                            else
+                            {
+                                AddToWallLayer(x, y, overhangingTile.RuleSprites[3], col);
+                            }
+                        }
                     }
                 }
             }
