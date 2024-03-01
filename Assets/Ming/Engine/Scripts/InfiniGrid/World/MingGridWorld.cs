@@ -21,8 +21,9 @@ public class MingGridWorld
         H = h;
         SetSize(w, h);
 
-        //MingBuilderRandom.Build(TileIdLayer, W, H, valueWalkable: 0, valueSolid: 1);
         MingBuilderPerlinNoise.BuildCaves(TileIdLayer, W, H, valueWalkable: 0, valueSolid: 1);
+        //MingBuilderRandom.Build(TileIdLayer, W, H, valueWalkable: 0, valueSolid: 1);
+        //MingBuilderRandomHoles.Build(TileIdLayer, W, H, valueWalkable: 0, chanceWalkable: 0.1f);
         Collision.UpdateFromTiles(TileIdLayer, _tileRecipes);
     }
 
