@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.Tilemaps;
 
 namespace Ming
 {
@@ -25,6 +23,12 @@ namespace Ming
     {
         const int TileIdFloor = 0;
         const int TileIdWallSocket = 1;
+
+        public bool GrowLight;
+        public static bool S_GrowLight;
+
+        public bool LightmapGizmos;
+        public bool CollisionGizmos;
 
         public float testX = 0;
         public float testY = 0;
@@ -62,6 +66,11 @@ namespace Ming
 
             //_world.DrawGizmos();
             MingGizmo.DrawRectangle(_world.WorldRect, MingConst.MingColor2, "world", MingConst.MingColorText1);
+
+            if (LightmapGizmos)
+                _world.LightmapActive.DrawGizmos(Vector2.zero);
+            if (CollisionGizmos)
+                _world.CollisionMap.DrawGizmos(Vector2.zero);
         }
 
         private void Awake()
@@ -80,6 +89,9 @@ namespace Ming
         // adjust our local position within the 1x1 to make it smooth
         private void Update()
         {
+            S_GrowLight = GrowLight;
+            _world.Update();
+
             PlayerScript.Color = Color;
 
             RectInt viewTileRect = MingGridUtil.GetViewTileRect(transform.position, ViewTileWidth, ViewTileHeight);

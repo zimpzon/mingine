@@ -1,9 +1,21 @@
 
 
+LIGHT V1:
+   IMPL:
+     LightSources, paint light into this layer: Vector4[] - RGB + expireTime.
+     CurrentLight: vector3[]
+   light sources paint on a light layer
+   light blur like Terraria, spread as fast as possible.
+   light slowly decays (how does this mix with the blur?)
+
+   "light-staff": throw light globes to light up areas, uses mana
+
 Random ideas:
   crafting without the hassle
     infini-chest: all materials can be auto-dropped here and there is unlimited room.
     crafting automatically uses infini-chest resources.
+    decreasing life in the dark
+    easy to paint light, but it's dark when you go back :p Mana for mining, shooting and lighting. You have to pick.
 
   MINING-GUN! Pickaxes are for... pickaxers. Shoot to mine!!
 
