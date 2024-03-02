@@ -2,12 +2,12 @@
 
 namespace Ming
 {
-    public class MingGridCollision
+    public class MingGridCollisionMap
     {
         public int W, H;
-        private byte[] Cells;
+        public byte[] Cells;
 
-        public MingGridCollision(int w, int h)
+        public MingGridCollisionMap(int w, int h)
         {
             SetSize(w, h);
         }

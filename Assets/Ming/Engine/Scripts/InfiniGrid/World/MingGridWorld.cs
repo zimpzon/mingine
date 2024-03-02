@@ -7,9 +7,11 @@ public class MingGridWorld
     public RectInt WorldRect;
     public ushort[] TileIdLayer;
     public ushort[] PropsIdLayer;
-    public MingGridCollision Collision;
+    public MingGridCollisionMap CollisionMap;
     public MingGridFlow FlowFieldHome;
     public MingGridFlow FlowFieldResources;
+    public MingGridLightmap LightmapActive;
+    public MingGridLightmap LightmapWorking;
 
     private readonly MingGridTileRecipeCollection _tileRecipes;
 
@@ -24,7 +26,25 @@ public class MingGridWorld
         MingBuilderPerlinNoise.BuildCaves(TileIdLayer, W, H, valueWalkable: 0, valueSolid: 1);
         //MingBuilderRandom.Build(TileIdLayer, W, H, valueWalkable: 0, valueSolid: 1);
         //MingBuilderRandomHoles.Build(TileIdLayer, W, H, valueWalkable: 0, chanceWalkable: 0.1f);
-        Collision.UpdateFromTiles(TileIdLayer, _tileRecipes);
+        CollisionMap.UpdateFromTiles(TileIdLayer, _tileRecipes);
+
+        CollisionMap.UpdateFromTiles(TileIdLayer, _tileRecipes);
+        LightmapActive.Clear();
+    }
+
+    public void Update()
+    {
+        LightmapActive.Clear();
+        LightmapActive.AddLight((int)PlayerScript.Pos.x, (int)PlayerScript.Pos.y, Color.green, MingTime.Time + 2);
+        if (MingGridWorldRenderer.S_GrowLight)
+        {
+            LightmapActive.GrowLight(CollisionMap);
+            LightmapActive.GrowLight(CollisionMap);
+
+            //var tmp = LightmapActive;
+            //LightmapActive = LightmapWorking;
+            //LightmapWorking = tmp;
+        }
     }
 
     public void SetSize(int w, int h)
@@ -36,14 +56,11 @@ public class MingGridWorld
         TileIdLayer = new ushort[w * h];
         PropsIdLayer = new ushort[w * h];
 
-        Collision = new MingGridCollision(w, h);
+        CollisionMap = new MingGridCollisionMap(w, h);
+        LightmapActive = new MingGridLightmap(w, h);
+        LightmapWorking = new MingGridLightmap(w, h);
 
         FlowFieldHome = new MingGridFlow(w, h);
         FlowFieldResources = new MingGridFlow(w, h);
-    }
-
-    public void DrawGizmos()
-    {
-        Collision.DrawGizmos(Vector2.zero);
     }
 }
