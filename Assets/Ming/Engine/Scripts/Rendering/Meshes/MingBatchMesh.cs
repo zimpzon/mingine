@@ -103,6 +103,51 @@ namespace Ming
             }
         }
 
+        public void AddQuad(Vector3 center, Vector2 size, Vector2 uvTopLeft, Vector2 uvSize, Color32 colorTl, Color32 colorTr, Color32 colorBr, Color32 colorBl)
+        {
+            // 0---1
+            // | / | = [0, 1, 3] and [1, 2, 3]
+            // 3---2
+
+            float halfW = size.x * 0.5f;
+            float halfH = size.y * 0.5f;
+
+            int vert0 = ActiveQuadCount * 4;
+            _vertices[vert0 + 0].x = -halfW + center.x;
+            _vertices[vert0 + 1].x = halfW + center.x;
+            _vertices[vert0 + 2].x = halfW + center.x;
+            _vertices[vert0 + 3].x = -halfW + center.x;
+
+            _vertices[vert0 + 0].y = halfH + center.y;
+            _vertices[vert0 + 1].y = halfH + center.y;
+            _vertices[vert0 + 2].y = -halfH + center.y;
+            _vertices[vert0 + 3].y = -halfH + center.y;
+
+            _vertices[vert0 + 0].z = center.z;
+            _vertices[vert0 + 1].z = center.z;
+            _vertices[vert0 + 2].z = center.z;
+            _vertices[vert0 + 3].z = center.z;
+
+            _uv[vert0 + 0].x = uvTopLeft.x;
+            _uv[vert0 + 0].y = uvTopLeft.y;
+
+            _uv[vert0 + 1].x = uvTopLeft.x + uvSize.x;
+            _uv[vert0 + 1].y = uvTopLeft.y;
+
+            _uv[vert0 + 2].x = uvTopLeft.x + uvSize.x;
+            _uv[vert0 + 2].y = uvTopLeft.y - uvSize.y;
+
+            _uv[vert0 + 3].x = uvTopLeft.x;
+            _uv[vert0 + 3].y = uvTopLeft.y - uvSize.y;
+
+            _colors[vert0 + 0] = colorTl;
+            _colors[vert0 + 1] = colorTr;
+            _colors[vert0 + 2] = colorBr;
+            _colors[vert0 + 3] = colorBl;
+
+            ActiveQuadCount++;
+        }
+
         public void AddQuad(Vector3 center, Vector2 size, float rotationDegrees, float zSkew, Color32 color)
         {
             AddQuad(center, size, rotationDegrees, zSkew, Vector2.up, Vector2.one, color);

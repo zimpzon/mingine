@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.Tilemaps;
 
 namespace Ming
 {
@@ -28,6 +26,8 @@ namespace Ming
 
         public bool GrowLight;
         public static bool S_GrowLight;
+        public static Color S_PlayerCol;
+        public Color PlayerCol;
 
         public bool LightmapGizmos;
         public bool CollisionGizmos;
@@ -92,6 +92,7 @@ namespace Ming
         private void Update()
         {
             S_GrowLight = GrowLight;
+            S_PlayerCol = PlayerCol;
             _world.Update();
 
             PlayerScript.Color = Color;
@@ -158,19 +159,19 @@ namespace Ming
                         {
                             if (!L && R)
                             {
-                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[12], col);
+                                AddToFloorLayer(x, y, worldX, worldY, tileRecipe.RuleSprites[12]);
                             }
                             else if (L && R)
                             {
-                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[13], col);
+                                AddToFloorLayer(x, y, worldX, worldY, tileRecipe.RuleSprites[13]);
                             }
                             else if (L && !R)
                             {
-                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[14], col);
+                                AddToFloorLayer(x, y, worldX, worldY, tileRecipe.RuleSprites[14]);
                             }
                             else
                             {
-                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[15], col);
+                                AddToFloorLayer(x, y, worldX, worldY, tileRecipe.RuleSprites[15]);
                             }
                         }
                         else
@@ -178,15 +179,15 @@ namespace Ming
                             // display as "roof"
                             if (!L && R)
                             {
-                                AddToFloorLayer(x, y, OHL ? tileRecipe.RuleSprites[4] : tileRecipe.RuleSprites[8], col);
+                                AddToFloorLayer(x, y, worldX, worldY, OHL ? tileRecipe.RuleSprites[4] : tileRecipe.RuleSprites[8]);
                             }
                             else if (L && R)
                             {
-                                AddToFloorLayer(x, y, tileRecipe.RuleSprites[9], col);
+                                AddToFloorLayer(x, y, worldX, worldY, tileRecipe.RuleSprites[9]);
                             }
                             else if (L && !R)
                             {
-                                AddToFloorLayer(x, y, OHR ? tileRecipe.RuleSprites[6] : tileRecipe.RuleSprites[10], col);
+                                AddToFloorLayer(x, y, worldX, worldY, OHR ? tileRecipe.RuleSprites[6] : tileRecipe.RuleSprites[10]);
                             }
                             else
                             {
@@ -194,12 +195,12 @@ namespace Ming
                                 if (OHL && OHL)
                                 {
                                     // both have overhangs
-                                    AddToFloorLayer(x, y, tileRecipe.RuleSprites[7], col);
+                                    AddToFloorLayer(x, y, worldX, worldY, tileRecipe.RuleSprites[7]);
                                 }
                                 else
                                 {
                                     // if just one of them are overhangs we actually don't have a matching tile, so just use the one for no overhangs left/right
-                                    AddToFloorLayer(x, y, tileRecipe.RuleSprites[11], col);
+                                    AddToFloorLayer(x, y, worldX, worldY, tileRecipe.RuleSprites[11]);
                                 }
                             }
                         }
@@ -207,7 +208,7 @@ namespace Ming
 
                     if (tileId == TileIdFloor)
                     {
-                        AddToFloorLayer(x, y, tileRecipe.TileSprite, col);
+                        AddToFloorLayer(x, y, worldX, worldY, tileRecipe.TileSprite);
 
                         bool hasOverhang = !C && B;
                         if (hasOverhang)
@@ -216,19 +217,19 @@ namespace Ming
                             MingGridTileRecipe overhangingTile = TileRecipeCollection.GetRecipe(overhangingTileId);
                             if (!BL && BR)
                             {
-                                AddToWallLayer(x, y, overhangingTile.RuleSprites[0], col);
+                                AddToWallLayer(x, y, worldX, worldY, overhangingTile.RuleSprites[0]);
                             }
                             else if (BL && BR)
                             {
-                                AddToWallLayer(x, y, overhangingTile.RuleSprites[1], col);
+                                AddToWallLayer(x, y, worldX, worldY, overhangingTile.RuleSprites[1]);
                             }
                             else if (BL && !BR)
                             {
-                                AddToWallLayer(x, y, overhangingTile.RuleSprites[2], col);
+                                AddToWallLayer(x, y, worldX, worldY, overhangingTile.RuleSprites[2]);
                             }
                             else
                             {
-                                AddToWallLayer(x, y, overhangingTile.RuleSprites[3], col);
+                                AddToWallLayer(x, y, worldX, worldY, overhangingTile.RuleSprites[3]);
                             }
                         }
                     }
@@ -236,27 +237,39 @@ namespace Ming
             }
         }
 
-        private void AddToWallLayer(int x, int y, Sprite sprite, Color color)
+        private void AddToWallLayer(int x, int y, int worldX, int worldY, Sprite sprite)
         {
+            Color colorTl = _world.LightmapActive.GetColor(worldX - 1, worldY + 1);
+            Color colorTr = _world.LightmapActive.GetColor(worldX + 1, worldY + 1);
+            Color colorBr = _world.LightmapActive.GetColor(worldX + 1, worldY - 1);
+            Color colorBl = _world.LightmapActive.GetColor(worldX - 1, worldY - 1);
+
             _quadRendererWallLayer.AddQuad(
                 center: new Vector3(x, y, 0),
                 size: new Vector2(1, 1),
-                rotationDegrees: 0,
-                zSkew: 0,
-                color,
+                colorTl,
+                colorTr,
+                colorBr,
+                colorBl,
                 sprite,
                 WallMaterial,
                 gameObject.layer);
         }
 
-        private void AddToFloorLayer(int x, int y, Sprite sprite, Color color)
+        private void AddToFloorLayer(int x, int y, int worldX, int worldY, Sprite sprite)
         {
+            Color colorTl = _world.LightmapActive.GetColor(worldX - 1, worldY + 1);
+            Color colorTr = _world.LightmapActive.GetColor(worldX + 1, worldY + 1); 
+            Color colorBr = _world.LightmapActive.GetColor(worldX + 1, worldY - 1);
+            Color colorBl = _world.LightmapActive.GetColor(worldX - 1, worldY - 1);
+
             _quadRendererFloorLayer.AddQuad(
                 center: new Vector3(x, y, 0),
                 size: new Vector2(1, 1),
-                rotationDegrees: 0,
-                zSkew: 0,
-                color,
+                colorTl,
+                colorTr,
+                colorBr,
+                colorBl,
                 sprite,
                 FloorMaterial,
                 gameObject.layer);

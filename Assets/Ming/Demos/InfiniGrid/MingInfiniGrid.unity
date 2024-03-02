@@ -596,6 +596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GrowLight: 1
+  PlayerCol: {r: 1, g: 1, b: 1, a: 0}
   LightmapGizmos: 1
   CollisionGizmos: 0
   testX: 0

@@ -35,7 +35,7 @@ public class MingGridWorld
     public void Update()
     {
         LightmapActive.Clear();
-        LightmapActive.AddLight((int)PlayerScript.Pos.x, (int)PlayerScript.Pos.y, Color.green, MingTime.Time + 2);
+        LightmapActive.AddLight((int)PlayerScript.Pos.x, (int)PlayerScript.Pos.y, MingGridWorldRenderer.S_PlayerCol, MingTime.Time + 5 + Random.value * 2.0f);
         if (MingGridWorldRenderer.S_GrowLight)
         {
             LightmapActive.GrowLight(CollisionMap);

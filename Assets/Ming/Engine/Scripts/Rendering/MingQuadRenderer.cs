@@ -26,6 +26,12 @@ namespace Ming
             batch.AddQuad(center, size, rotationDegrees, zSkew, color, sprite);
         }
 
+        public void AddQuad(Vector3 center, Vector2 size, Color32 colorTl, Color32 colorTr, Color32 colorBr, Color32 colorBl, Sprite sprite, Material material, int layer)
+        {
+            var batch = GetBatchRenderer(sprite, material, layer);
+            batch.AddQuad(center, size, colorTl, colorTr, colorBr, colorBl, sprite);
+        }
+
         public MingBatchRenderer GetBatchRenderer(Sprite sprite, Material material, int layer)
         {
             ulong key = ((ulong)sprite.texture.GetInstanceID() << 29) + ((ulong)material.GetInstanceID() << 6) + (ulong)layer;
